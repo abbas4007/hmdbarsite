@@ -12,6 +12,10 @@
     transition: opacity .5s ease-out, visibility 0s linear 0s;
     visibility: visible;
     opacity: 1;
+    -webkit-transition: opacity .5s ease-out, visibility 0s linear 0s;
+    -moz-transition: opacity .5s ease-out, visibility 0s linear 0s;
+    -ms-transition: opacity .5s ease-out, visibility 0s linear 0s;
+    -o-transition: opacity .5s ease-out, visibility 0s linear 0s;
 }
 /*** Spinner End ***/
 
@@ -909,4 +913,6 @@
 }
 /*** copyright end ***/
 
-
+.text-primary{
+    color:#071e72 !important
+}

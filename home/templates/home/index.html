@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load static %}
+<html lang="en" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>کانون وکلای دادگستری استان همدان</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'asset/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'aasset/img/apple-touch-icon.png' %}"rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'asset/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/css/style.css' %}" rel="stylesheet">
+  <!-- Template Main CSS File -->
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center justify-content-lg-between mr-5">
+
+
+      <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+             <form class="d-flex mt-2 " >
+                               {{form}}
+
+<input type="submit" value="جستجو" class="mt-2 p-1 btn btn-primary ">
+             </form>
+          <li style="margin-right: 100px;"><a class="nav-link scrollto active" href="#hero">صفحه اصلی</a></li>
+          <li><a class="nav-link scrollto" href="#services">اخبار</a></li>
+          <li><a class="nav-link scrollto " href="{% url 'home:vokala' %}">جستجوی وکیل</a></li>
+          <li><a class="nav-link scrollto" href="#team">هیات مدیره</a></li>
+          <li class="dropdown"><a href="#"><span>کمیسیون ها</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">کارآموزی</a></li>
+              <li><a href="#">فرهنگی و رفاهی</a></li>
+              <li><a href="#">حقوق بشر</a></li>
+              <li class="dropdown"><a href="#"><span>دادسرای انتظامی</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">کارآموزی</a></li>
+                  <li><a href="#">فرهنگی و رفاهی</a></li>
+                  <li><a href="#">حقوق بشر</a></li>
+                  <li><a href="#">اداره معاضدت و تسخیری</a></li>
+                  <li><a href="#">نقل و انتقالات</a></li>
+              <li><a href="#">اداره معاضدت و تسخیری</a></li>
+              <li><a href="#">نقل و انتقالات</a></li>
+              <li><a href="#"> ورزشی</a></li>
+              <li><a href="#">آموزش و پژوهش <a></li>
+              <li><a href="#">محیط زیست</a></li>
+
+
+            </ul>
+          </li>
+          <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+          </li>
+        </ul>
+
+      </nav>
+    </div>
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" style='background-image: url("static/asset/img/banner.jpg");'  class=" align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+
+
+
+      <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+        <div class="col-xl-2 col-md-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-search"></i></div>
+            <h4 style="font-family: 'B Titr';"><a href="{% url 'home:vokala' %}"  style="font-family: 'B Titr';">جستجوی وکیل  </a></h4>
+            <p class="description"  style="font-family: 'B Arshia  '; color: #ebedf3">جستجوی وکلا بر اساس نام، نام خانوادگی،...</p>
+          </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-laptop"></i></div>
+            <h4 class="title"><a href="https://automation.hamedanbar.ir/login.aspx"  style="font-family: 'B Titr';">اتوماسیون</a></h4>
+            <p class="description" style="font-family: 'B Arshia  '; color: #e5e6e8">ورود به اتوماسیون تخصصی وکلا  </p>
+          </div>
+        </div>
+
+        <div class="col-xl-2 col-md-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-envelope"></i></div>
+            <h4 class="title"><a href="{% url 'home:contact' %}"   style="font-family: 'B Titr';">ارتباط با  ریاست</a></h4>
+            <p class="description" style="font-family: 'B Arshia  '; color: #fbfbff">صندوق انتقادات و پیشنهادات</p>          </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="clients-slider swiper" style="height: 88px;">
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/yvnfl.jpg' %}" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/9nj03.jpg' %}" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/ugqpd.jpg' %}" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/bjolg.jpg' %}" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/ayljq.jpg' %}" class="img-fluid" alt=""></div>          <div class="swiper-pagination"></div>
+            <div class="swiper-slide"><img src="{% static 'asset/img/clients/amwu1.jpg' %}" class="img-fluid" alt=""></div>          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+      </div>
+    </section>
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>اخبار</h2>
+        </div>
+
+<div class="row " style="margin-right: 170px;">
+          {% for i in page_obj %}
+          <div class="card col-md-3 g-2 shadow mx-1 btn " >
+    <img class="card-img-top" src="{{i.thumbnail.url}}" alt="Card image cap" style= "width: 100%; height: 150px">
+    <div class="card-body">
+     <a href="{% url 'home:detail' i.slug %}"> <h5 class="card-title" style="font-family: 'B Titr'; font-weight: bold;font-size: 16px;">{{i.title}}</h5></a>
+      <p class="card-text" style="align-content: center; font-family: 'B Nazanin'; font-size: 16px;">{{i.description|truncatewords:30}}</p>
+      <div class="card-footer">
+      <small class="text-muted">Last updated 3 mins ago</small>
+    </div>
+    </div>
+  </div>
+    {% endfor %}
+      </div>
+
+<nav class="mt-4" aria-label="Page navigation example ">
+
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+          <li class="page-item"> <a href="?page=1">&laquo; اولین</a></li>
+           <li class="page-item" tabindex="-1" aria-disabled="true"> <a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+        {% endif %}
+
+
+
+        {% if page_obj.has_next %}
+    <li class="page-item">  <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+     <li class="page-item"><a class="page-link"  href="?page=2">2</a></li>
+    <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+    <li class="page-item">    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">قبلی &raquo;</a></li>
+
+
+        {% endif %}
+    </ul>
+    </section>
+      </div>
+    </section>
+    </section><!-- End Services Section --><!-- End Clients Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="image col-lg-6" style='background-image: url("static/asset/img/hero.jpg");' data-aos="fade-right"></div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+            <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-receipt"></i>
+              <h5>برگزاری جلسات مشاوره رایگان برای عموم شهروندان</h5>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-cube-alt"></i>
+              <h5>معرفی وکیل برای خانواده های تحت پوشش نهادهای حمایتی</h5>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-images"></i>
+              <h5>معرفی وکیل برای خانواده های تحت پوشش نهادهای حمایتی</h5>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-shield"></i>
+              <h5>معرفی وکیل برای خانواده های تحت پوشش نهادهای حمایتی</h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+ <div class="py-4 bg-dark-subtle">
+      <section class="container">
+        <h2 class="text-center display-5 mt-1"><p style="font-family: 'B Elham'">سوالات رایج</p></h2>
+        <p class="lead text-muted mb-5 pb-3 text-center">در این قسمت پاسخ برخی از سوالات رایج مطرح شده است</p>
+        <div class="accordion pb-4" id="accordionPanelsStayOpenExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+ نحوه درخواست وکالت اتفاقی                  </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+              <div class="accordion-body">
+                <strong>اساسا مورد استفاده قرار گیرد</strong>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+ نحوه درخواست وکالت تسخیری              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+              <div class="accordion-body">
+                <strong>اساسا مورد استفاده قرار گیرد</strong>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+               نحوه درخواست وکالت معاضدت
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+              <div class="accordion-body">
+                <strong>اساسا مورد استفاده قرار گیرد</strong>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ======= Testimonials Section ======= -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title">
+          <h2 style="font-family: 'B Titr';">هیات مدیره</h2>
+
+        </div>
+
+        <div class="row " >
+          {% for i in heyatmodireh %}
+          <div class="card col-md-3 g-2 mr-2 shadow mx-1 btn " >
+    <img class="card-img-top rounded-circle p-1" src="{% if i.vakil.thumbnail %}{{i.vakil.thumbnail.url}}{% else %}#{% endif %}" alt="Card image cap" style="width: 100%; height: 130px">
+    <div class="card-body">
+      {{i.role}}
+     <a href="{% url 'home:vakil' i.id %}"> <p class="card-text" style="align-content: center; font-family: 'B Nazanin'; font-size: 16px;">{{i.vakil.name}}  {{i.vakil.lastname}}</p></a>
+      <div class="card-footer">
+      <small class="text-muted">{{i.role}}</small>
+    </div>
+    </div>
+  </div>
+    {% endfor %}
+      </div>
+  </div>
+
+
+
+        </div>
+
+      </div>
+    </section>
+      </div>
+    </section>
+      </div>
+    </section>
+      </div>
+
+
+  </main>
+</body>
+
+  <!-- ======= Footer ======= -->
+<footer id="footer" style="  background-image: url("static/asset/img/hero-bg.jpg") top center;>
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3 style="font-family: 'B Titr';" >کانون وکلای دادگستری همدان<span>.</span></h3>
+              <p style="font-family: 'B Titr';" >کانون وکلای دادگستری قدیمی‌ترین سازمان مردم نهاد ایرانی است که به موجب لایحه استقلال کانون وکلا در سال ۱۳۳۱ به عنوان نهادی با شخصیت حقوقی و مستقل به وجود آمد، هرچند پیش از آن هم موجودیت داشت. کانون وکلای دادگستری ایران در سال ۱۳۲۹ نیز به عضویت کانون وکلای بین‌المللی (IBA) درآمده است. هیئت مدیره، رئیس، دادگاه انتظامی وکلا و دادسرای انتظامی وکلا از نهادهای هر کانون هستند.</p>
+               <br>
+               <br>
+                <strong>تلفن تماس :</strong>081-38282028-29<br>
+                <strong>سامانه پیامکی :</strong> 10008138282029<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>پیوندها</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">کانون های وکلای دادگستری کشور</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">ورود وکلا به پنل پست الکترونیکی</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">اپلیکیشن کانون های وکلا</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">مصوبات هیات مدیره</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">پیشنهادات و انتقادات</a></li>
+            </ul>
+          </div>
+
+
+
+          <section id="testimonials" style="width: 500px;height: 500px; margin-right:50px ;">
+
+            <div class="container " style="align-items: center; margin-right: 10px;" data-aos="zoom-in">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4633.700357069715!2d48.514082359384766!3d34.792833464831936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ff1ece11fe48d3d%3A0xed1d4fff92db4531!2z2qnYp9mG2YjZhiDZiNqp2YTYp9uMINiv2KfYr9qv2LPYqtix24wg2KfYs9iq2KfZhiDZh9mF2K_Yp9mG!5e0!3m2!1sen!2s!4v1720593822023!5m2!1sen!2s" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="mr-5"></iframe>
+       </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Gp</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'asset/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'asset/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'asset/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'asset/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'asset/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'asset/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'asset/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'asset/js/main.js' %}"></script>
+
+</body>
+
+</html>

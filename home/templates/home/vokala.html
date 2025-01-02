@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نقشه استان همدان</title>
+    <style>
+        .map {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('static/hmd.jpg');
+            background-size: cover;
+        }
+        .region {
+            position: absolute;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .region:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        /* موقعیت‌دهی شهرستان‌ها */
+        .kabudarahang {
+            top: 80px;
+            left: 250px;
+            width: 60px;
+            height: 60px;
+        }
+        .razan {
+            top: 50px;
+            left: 320px;
+            width: 60px;
+            height: 60px;
+        }
+        .dargazin {
+            top: 120px;
+            left: 370px;
+            width: 60px;
+            height: 60px;
+        }
+        .famenin {
+            top: 180px;
+            left: 290px;
+            width: 60px;
+            height: 60px;
+        }
+        .hamadan {
+            top: 200px;
+            left: 220px;
+            width: 60px;
+            height: 60px;
+        }
+        .bahar {
+            top: 150px;
+            left: 270px;
+            width: 60px;
+            height: 60px;
+        }
+        .asadabad {
+            top: 220px;
+            left: 170px;
+            width: 60px;
+            height: 60px;
+        }
+        .tuyserkan {
+            top: 300px;
+            left: 180px;
+            width: 60px;
+            height: 60px;
+        }
+        .malayer {
+            top: 400px;
+            left: 280px;
+            width: 60px;
+            height: 60px;
+        }
+        .nahavand {
+            top: 500px;
+            left: 250px;
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>نقشه تعاملی استان همدان</h1>
+<div class="map">
+    <div class="region kabudarahang" onclick="alert('کبودرآهنگ')"></div>
+    <div class="region razan" onclick="alert('رزن')"></div>
+    <div class="region dargazin" onclick="alert('درگزین')"></div>
+    <div class="region famenin" onclick="alert('فامنین')"></div>
+    <div class="region hamadan" onclick="alert('همدان')"></div>
+    <div class="region bahar" onclick="alert('بهار')"></div>
+    <div class="region asadabad" onclick="alert('اسدآباد')"></div>
+    <div class="region tuyserkan" onclick="alert('تویسرکان')"></div>
+    <div class="region malayer" onclick="alert('ملایر')"></div>
+    <div class="region nahavand" onclick="alert('نهاوند')"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+    {% crispy form %}
+
+{% block title %}{% block title-meta %}
+افزودن وکیل
+{% endblock %}{% endblock %}
+
+{% block main %}
+<div class="col-md-12">
+	<div class="card card-primary">
+		<div class="card-header">
+			<h3 class="card-title mb-0 float-left">افزودن وکیل</h3>
+		</div>
+		<div class="card-body">
+			<form method="post" enctype="multipart/form-data">{% csrf_token %}
+				<div class="row">
+					<div class="col-6">
+						{{ form.name|as_crispy_field|safe  }}
+					</div>
+					<div class="col-6">
+						{{ form.lastname|as_crispy_field|safe  }}
+					</div>
+					<div class="col-12">
+						{{ form.gender|as_crispy_field|safe  }}
+					</div>
+					<div class="col-6">
+						{{ form.code|as_crispy_field|safe  }}
+					</div>
+					<div class="col-6">
+						{{ form.thumbnail|as_crispy_field|safe  }}
+					</div>
+					<div class="col-6">
+						{{ form.address|as_crispy_field|safe  }}
+					</div>
+					{% if user.is_superuser %}
+						<div class="col-6">
+							{{ form.date|as_crispy_field|safe }}
+						</div>
+						<div class="col-6">
+							{{ form.city|as_crispy_field|safe  }}
+						</div>
+					{% else %}
+					<div class="col-6">
+						 <div id="div_id_status" class="form-group">
+								<label for="id_status" class=" requiredField">
+								وضعیت<span class="asteriskField">*</span>
+								</label>
+								<div class="">
+									 <select name="status" class="select form-control" required="" id="id_status">
+											<option value="">---------</option>
+											<option value="d">پیش‌نویس</option>
+											<option value="i">ارسال برای ادمین</option>
+                                            <option value="">منتشرشده</option>
+
+									
+                                        </select>
+								</div>
+						 </div>
+					</div>
+				{% endif %}
+				<div class="col-6">
+					{{ form.is_special|crispy }}
+				</div>
+				</div>
+				<button class="btn btn-success"> افزودن وکیل</button>
+				
+			</form>
+		</div>
+</div>
+</div>
+{% endblock %}
