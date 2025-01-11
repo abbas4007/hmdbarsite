@@ -79,9 +79,9 @@ class Article(models.Model):
         ('i', "در حال بررسی"),	 # investigation
         ('b', "برگشت داده شده"), # back
     )
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='articless', verbose_name="نویسنده")
+    author = models.ForeignKey(User,  on_delete=models.SET_NULL, related_name='articless', verbose_name="نویسنده",blank = True, null=True)
     title = models.CharField(max_length=200, verbose_name="عنوان مقاله")
-    slug = models.SlugField(max_length=100, unique=True, verbose_name="آدرس مقاله")
+    slug = models.SlugField(max_length=100, unique=True, verbose_name= "آدرس مقاله" ,blank = True ,null = True)
     category = models.ManyToManyField(Category, verbose_name="دسته‌بندی", related_name="articles")
     description = models.TextField(verbose_name="محتوا")
     thumbnail = models.ImageField(upload_to="image", verbose_name="تصویر مقاله",blank = True,null = True)
