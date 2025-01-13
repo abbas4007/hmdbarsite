@@ -157,10 +157,10 @@ class Article(models.Model):
 
         return img_file
 
-    def save(self, args, *kwargs) :
+    def save(self,*args,**kwargs) :
         if not self.thumbnail :
             self.thumbnail.save('article_image.jpg', self.create_image_with_title(self.title), save = False)
-        super().save(args, *kwargs)
+        super().save(*args,**kwargs)
 
 class ArticleImage(models.Model):
     article = models.ForeignKey(Article, default=None, on_delete=models.CASCADE)

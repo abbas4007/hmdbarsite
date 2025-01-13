@@ -46,7 +46,8 @@ class AazaComision(CreateView):
 
 class ArticleCreate(CreateView):
     model = Article
-    fields =  '__all__'
+    fields = ['author', 'title', 'slug', 'category', 'description', 'thumbnail', 'publish', 'is_special', 'status','video']
+
     template_name = "account/article-create-update.html"
     success_url = reverse_lazy('account:home')
 
