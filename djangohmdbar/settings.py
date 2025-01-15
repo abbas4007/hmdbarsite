@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+from templatetags import file_size
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +32,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,9 +43,11 @@ INSTALLED_APPS = [
     'account',
     'import_export',
     'crispy_forms',
-'crispy_bootstrap5',
+    'crispy_bootstrap5',
+    'django.contrib.humanize',
+    'templatetags',
 
-]
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

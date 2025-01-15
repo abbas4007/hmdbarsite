@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 
 from .forms import VakilSearchForm, AdminContactForm, ArticleSearchForm
-from .models import Article, Category, Vakil, Riyasat, Comision, ArticleImage
+from .models import Article, Category, Vakil, Riyasat, Comision, ArticleImage, ArticleFile
 
 
 # Create your views here.
@@ -32,7 +32,8 @@ class ArticleDetail(View):
     def get(self,request,slug):
         article = get_object_or_404(Article.objects.published(), slug=slug)
         images = ArticleImage.objects.filter(article = article)
-        return render(request, 'home/post_detail.html', {'article' : article, 'images' : images})
+        files = ArticleFile.objects.filter(article = article)
+        return render(request, 'home/post_detail.html', {'article' : article, 'imagess' : images, 'files' : files})
 
 
 class VokalaView(View):

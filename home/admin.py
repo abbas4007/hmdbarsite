@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 
 from . import models
-from .models import Comment, Article, Category, Vakil, Riyasat, Comision, ComisionVarzeshi, ArticleImage
+from .models import  ArticleFile,Comment, Article, Category, Vakil, Riyasat, Comision, ComisionVarzeshi, ArticleImage
 from import_export.admin import ImportExportModelAdmin
 import pandas as pd
 from django.http import JsonResponse
@@ -118,9 +118,12 @@ admin.site.register(Category, CategoryAdmin)
 class ArticleImageAdmin(admin.StackedInline) :
     model = ArticleImage
 
+class ArticleFileAdmin(admin.StackedInline) :
+    model = ArticleFile
+
 
 class ArticleAdmin(admin.ModelAdmin) :
-    inlines = [ArticleImageAdmin]
+    inlines = [ArticleImageAdmin,ArticleFileAdmin]
 
     class Meta :
         model = Article
@@ -135,6 +138,10 @@ class ArticleAdmin(admin.ModelAdmin) :
 
 @admin.register(ArticleImage)
 class ArticleImageAdmin(admin.ModelAdmin) :
+    pass
+
+@admin.register(ArticleFile)
+class ArticleFileAdmin(admin.ModelAdmin) :
     pass
 
 

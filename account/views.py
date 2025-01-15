@@ -9,9 +9,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from home.models import Article,Vakil,Riyasat,Comision,ComisionVarzeshi
+from home.models import Article, Vakil, Riyasat, Comision, ArticleImage, ArticleFile
 
 from .forms import ImageForm
+from django.forms import inlineformset_factory
 
 
 # Create your views here.
@@ -42,16 +43,33 @@ class AazaComision(CreateView):
     model = Comision
     fields = '__all__'
     template_name = "account/aaza_comision.html"
-    success_url = reverse_lazy('account:home') 
-
-class ArticleCreate(CreateView):
-    model = Article
-    fields = ['author', 'title', 'slug', 'category', 'description', 'thumbnail', 'publish', 'is_special', 'status','video']
-
-    template_name = "account/article-create-update.html"
     success_url = reverse_lazy('account:home')
 
 
+class ArticleCreate(CreateView) :
+    model = Article
+    fields = ['author', 'title', 'slug', 'category', 'description', 'thumbnail', 'publish', 'is_special', 'status','file','video']
+
+    template_name = "account/article-create-update.html"
+
+    success_url = reverse_lazy('account:home')
+
+    # def form_valid(self, form) :
+    #     response = super().form_valid(form)
+    #     if self.request.FILES.getlist('files') :
+    #         for uploaded_file in self.request.FILES.getlist('files') :
+    #             ArticleFile.objects.create(article = self.object, file = uploaded_file)
+    #         return response
+
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         if self.request.POST:
+#             context['formset'] = ArticleImageFormSet(self.request.POST, instance=self.object)
+#         else:
+#             context['formset'] = ArticleImageFormSet(instance=self.object)
+#         return context
+# ArticleImageFormSet = inlineformset_factory(Article, ArticleImage, fields=('images',), extra=1)
 
 class ArticleUpdate(UpdateView):
     model = Article

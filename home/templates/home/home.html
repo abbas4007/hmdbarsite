@@ -136,218 +136,64 @@
 
         <!-- Features End -->
         <!-- Services Start -->
-        <div class="container-fluid service pb-5 py-4" style="direction: rtl;">
-            <div class="container pb-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4  style="font-family: Sahel; color: #0a3dbe;" >اخبار</h4>
-
-                </div>
-                <div class="row g-4">
-                    {% for i in page_obj %}
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="service-item">
-                            <div class="service-img">
-                                <img src={{ i.thumbnail.url }} class="img-fluid">
-                            </div>
-                            <div class="rounded-bottom p-4">
-                               <p > <a href="{% url 'home:detail' i.slug %}" class="h4 d-inline-block mb-4" style="font-family: Sahel;"><strong>  {{ i.title }} </strong></a></p>
-                                <p class="mb-4" style="font-family: Sahel,serif;">{{ i.description|safe }}</p>
-                                <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-
+<div class="container-fluid service pb-5 py-4" style="direction: rtl;">
+    <div class="container pb-5">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <h4 style="font-family: Sahel; color: #0a3dbe;">اخبار</h4>
         </div>
-        <!-- Services End -->
-
-
-
-
-        <!-- Offer Start -->
-        <div class="container-fluid offer-section pb-5 py-4">
-            <div class="container pb-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4  style="font-family: Sahel; color: #060365">اپلیکیشن</h4>
-                    <h1 class="display-5 mb-4" style="font-family: Sahel;">دسترسی به فهرست وکلای کانون های کشور</h1>
-                    </p>
-                </div>
-                <div class="row g-5 align-items-center">
-                    <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="nav nav-pills bg-light rounded p-5">
-                            <a style="--bs-primary: #5700c1;" class="accordion-link p-4 active mb-4" data-bs-toggle="pill" href="#collapseOne">
-                                <h5 class="mb-0" style="font-family: Sahel;">مشاهده فهرست بروز وکلای هر استان
-
-</h5>
-                            </a>
-                            <a style="--bs-primary: #5700c1;" class="accordion-link p-4 mb-4" data-bs-toggle="pill" href="#collapseTwo">
-                                <h5 class="mb-0" style="font-family: Sahel;">مشاهده فهرست بروز کارآموزان هر استان
-
-</h5>
-                            </a>
-
-                            <a style="--bs-primary: #5700c1;" class="accordion-link p-4 mb-4" data-bs-toggle="pill" href="#collapseThree">
-                                <h5 class="mb-0" style="font-family: Sahel;">مشاهده اعضای هیات مدیره
-
-</h5>
-                            </a>
-                            <a style="--bs-primary: #5700c1;" class="accordion-link p-4 mb-0" data-bs-toggle="pill" href="#collapseFour">
-                                <h5 class="mb-0" style="font-family: Sahel;">دسترسی به کمیسیون ها و اعضای آنها
-
-</h5>
-                            </a>
-                        </div>
+        <div class="row g-4">
+            {% for i in page_obj %}
+            <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="service-item">
+                    <div class="service-img">
+                        <img src="{{ i.thumbnail.url }}" class="img-fluid">
                     </div>
-                    <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.4s" style="--bs-primary: back">
-                        <div class="tab-content">
-                            <div id="collapseOne" class="tab-pane fade show p-0 active" >
-                                <div class="row g-4">
-                                    <div class="col-md-7">
-                                        <img src="{% static 'app.png' %}" class="img-fluid w-100 rounded" alt="">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <h1 class="display-5 mb-4" style="font-family: Sahel;">اپلیکیشن کانون وکلای دادگستری</h1>
-                                        <p class="mb-4" style="font-family: Sahel;"> اپلیکیشن کانون وکلای دادگستری قابل نصب بر روی دستگاههای اندرویدی و iOS می باشد.دریافت اپلیکیشن
-
-                                        </p>
-                                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;"> دریافت</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="collapseTwo" class="tab-pane fade show p-0">
-                                <div class="row g-4">
-                                    <div class="col-md-7">
-
-                                        <img src="{% static 'asset/img/offer-1.jpg' %}" class="img-fluid w-100 rounded" alt="">
-                                    </div>
-<div class="col-md-5">
-                                        <h1 class="display-5 mb-4" style="font-family: Sahel;">اپلیکیشن کانون وکلای دادگستری</h1>
-                                        <p class="mb-4" style="font-family: Sahel;"> اپلیکیشن کانون وکلای دادگستری قابل نصب بر روی دستگاههای اندرویدی و iOS می باشد.دریافت اپلیکیشن
-
-                                        </p>
-                                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;"> دریافت</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="collapseThree" class="tab-pane fade show p-0">
-                                <div class="row g-4">
-                                    <div class="col-md-7">
-                                        <img src="{% static 'asset/img/offer-3.jpg' %}" class="img-fluid w-100 rounded" alt="">
-                                    </div>
-                                    <div class="col-md-5">
-  <h1 class="display-5 mb-4" style="font-family: Sahel;">دسترسی به اعضای کمیسیون</h1>
-                                        <p class="mb-4" style="font-family: Sahel;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis amet sequi molestiae tenetur eum mollitia, blanditiis, magnam illo magni error dolore unde perspiciatis tempore et totam corrupti dignissimos aut praesentium?
-                                        </p>
-                                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;">Learn More</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="collapseFour" class="tab-pane fade show p-0">
-                                <div class="row g-4">
-                                    <div class="col-md-7">
-                                        <img src="{% static 'asset/img/offer-4.jpg' %}" class="img-fluid w-100 rounded" alt="">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <h1 class="display-5 mb-4" style="font-family: Sahel;">دسترسی به اعضای کمیسیون</h1>
-                                        <p class="mb-4" style="font-family: Sahel;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis amet sequi molestiae tenetur eum mollitia, blanditiis, magnam illo magni error dolore unde perspiciatis tempore et totam corrupti dignissimos aut praesentium?
-                                        </p>
-                                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;">Learn More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="rounded-bottom p-4">
+                        <p>
+                            <a href="{% url 'home:detail' i.slug %}" class="h4 d-inline-block mb-4" style="font-family: Sahel;">
+                                <strong>{{ i.title }}</strong>
+                            </a>
+                        </p>
+                        <p class="h6 mb-4" style="font-family: Sahel;">{{ i.description|safe|truncatewords:25 }}</p>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;"> ادامه مطلب</a>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        <!-- Offer End -->
 
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">اولین</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">قبلی</a>
+                </li>
+                {% endif %}
 
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
 
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">آخرین</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
 
-
- <div class="py-4 bg-dark-subtle">
-      <section class="container">
-        <h2 class="text-center display-5 mt-1 " style="--bs-primary: #5700c1;"><p style="font-family: Sahel; color: #0a1a83;">سوالات رایج</p></h2>
-        <p class="lead text-muted mb-5 pb-3 text-center" style="font-family: Sahel;">در این قسمت پاسخ برخی از سوالات رایج مطرح شده است</p>
-        <div class="accordion pb-4" id="accordionPanelsStayOpenExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-              <button style="font-family: Sahel;"  class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
- نحوه درخواست وکالت اتفاقی                  </button>
-            </h2>
-            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-              <div class="accordion-body">
-                <strong style="font-family: Sahel;">اساسا مورد استفاده قرار گیرد</strong>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-              <button style="font-family: Sahel;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
- نحوه درخواست وکالت تسخیری              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-              <div class="accordion-body">
-                <strong style="font-family: Sahel;">اساسا مورد استفاده قرار گیرد</strong>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-              <button style="font-family: Sahel;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-               نحوه درخواست وکالت معاضدت
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-              <div class="accordion-body">
-                  <strong style="font-family: Sahel;">اساسا مورد استفاده قرار گیرد</strong><span style="font-family: Sahel;"></span>شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد<code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
-
-
-        <!-- Team Start -->
-        <div class="container-fluid team pb-5">
-            <div class="container pb-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 style="font-family: Sahel; color: #160563">هیات مدیره </h4>
-
-                </div>
-
-                <div class="row g-4">
-
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s" style="--bs-primary: #5700c1;">
-                                                                                  {% for i in heyatmodireh %}
-
-                        <div class="team-item">
-                            <div class="team-img">
-                                <img src="{% if i.vakil.thumbnail %}{{i.vakil.thumbnail.url}}{% else %}#{% endif %}" class="img-fluid" alt="">
-                            </div>
-                            <div class="team-title">
-                                <h4 class="mb-0" style="font-family: Sahel;">{{i.vakil.name}}  {{i.vakil.lastname}}</h4>
-                                <p class="mb-0" style="font-family: Sahel;">{{ i.role }}</p>
-                            </div>
-                            <div class="team-icon">
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                                                            {% endfor %}
-
-                    </div>
-                     </div>
-
-            </div>
-        </div>
-            </div>
-        </div>
-
+</div>
 
 {% endblock %}

@@ -1,5 +1,7 @@
 {% load static %}
+{% load humanize %}
 {% block headers %}
+    {% load file_size %}
 
         <head>
         <meta charset="utf-8" />
@@ -49,7 +51,34 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <h5 style="font-family: Sahel;">{{ article.description|safe }}</h5>
+                                <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">عنوان فایل</th>
+                                                        <th scope="col">حجم</th>
+                                                    </tr>
+                                                </thead>
+                                              <table>
 
+    <table>
+
+    <tbody>
+
+<div>
+  <h3>فایل‌ها</h3>
+  <ul>
+    {% for file in files %}
+      <li>
+        <a href="{{ file.file.url }}" download>{{ file.name }}</a>
+        ({{ file.file.size|filesizeformat }})
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+    </tbody>
+</table>
+</table>
+                                            </table>
                            {% if article.video %}
                         <video width="320" height="240" controls>
                           <source src="{{ article.video.url }}" type="video/mp4">
@@ -73,7 +102,7 @@
                 <!--/.Indicators-->
                 <!--Slides-->
                 <div class="carousel-inner mt-5" role="listbox" style="width: 800px; height: 350px; margin-right: 70px;">
-                  {% for p in images %}
+                  {% for p in imagess %}
                   <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
                     <img class="d-block w-100" src="{{ p.images.url  }}"
                       alt="First slide">

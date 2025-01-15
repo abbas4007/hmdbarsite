@@ -90,7 +90,7 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     is_special = models.BooleanField(default=False, verbose_name="مقاله ویژه")
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name="وضعیت")
-    # comments = GenericRelation(Comment)
+    file = models.FileField(blank = True,null = True)
     video = models.FileField(blank = True,null = True,verbose_name= 'وید‍‍یو')
     class Meta:
         verbose_name = "مقاله"
@@ -161,6 +161,15 @@ class Article(models.Model):
         if not self.thumbnail :
             self.thumbnail.save('article_image.jpg', self.create_image_with_title(self.title), save = False)
         super().save(*args,**kwargs)
+
+class ArticleFile(models.Model) :
+    article = models.ForeignKey(Article, on_delete = models.CASCADE, related_name = 'files')
+    file = models.FileField(upload_to = 'article_files/',blank=True, null=True)
+    name = models.CharField(max_length = 50,blank=True, null=True)
+
+
+    def __str__(self) :
+        return f"{self.article.title} - {self.file.name}"
 
 class ArticleImage(models.Model):
     article = models.ForeignKey(Article, default=None, on_delete=models.CASCADE)
