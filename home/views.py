@@ -31,9 +31,9 @@ class ArticleList(View):
 class ArticleDetail(View):
     def get(self, request, slug):
         article = get_object_or_404(Article.objects.published(), slug=slug)
-        images = ArticleImage.objects.filter(article=article)
+        aks = ArticleImage.objects.filter(article=article)
         files = ArticleFile.objects.filter(article=article)
-        return render(request, 'home/post_detail.html', {'article': article, 'images': images, 'files': files})
+        return render(request, 'home/post_detail.html', {'article': article, 'aks': aks, 'files': files})
 
 class VokalaView(View):
     form_class = VakilSearchForm

@@ -38,10 +38,6 @@
           </div>
 
 
-    {% for i in images %}
-{#    <img style="display: flex; overflow-x: scroll; scroll-behavior: smooth; width: 200px; height: 200px; margin: 10px; margin-left: 210px;" src="{{ i.images.url }}" alt="عکس خبر">#}
-
-
 
 <div id="demo" class="carousel slide" data-bs-ride="carousel" style="margin-left: 180px;">
 
@@ -55,7 +51,10 @@
   <!-- The slideshow/carousel -->
   <div class="carousel-inner">
     <div class="carousel-item active">
+            {% for i in aks %}
+
       <img src="{{ i.images.url }}" alt="Los Angeles" class="d-block w-100">
+                {% endfor %}
     </div>
 
   </div>
@@ -70,7 +69,6 @@
 </div>
 
 
-{% endfor %}
 
 
 

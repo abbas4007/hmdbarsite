@@ -2,14 +2,159 @@
 {% load static %}
 {% block content %}
 
+<head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Inconsolata|Merriweather');
 
+$body: 'Inconsolata', monospace;
+$big: 'Merriweather', serif;
+
+$white: #ffffff;
+$primary: #F2DAD7;
+$secondary: #D1A39E;
+$light: #CECDCA;
+$dark: #474545;
+
+$ease: all 0.3s ease-in-out;
+
+body {
+  font-family: $body;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+#portfolio {
+  width: 100%;
+  min-height: 100vh;
+  background: $white;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 2px;
+}
+.project {
+  position: relative;
+  background: $primary;
+  overflow: hidden;
+  img {
+    position: absolute;
+    opacity: 0.9;
+  }
+  p {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    padding: 1em 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 3;
+  }
+  .grid__title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    bottom: 0;
+    font-weight: 100;
+    font-size: 0.8em;
+    z-index: 3;
+    text-transform: uppercase;
+    color: $dark;
+    letter-spacing: 2px;
+  }
+}
+
+// project hover overlay
+.project:hover .grid__overlay {
+  transform: translateY(0%);
+}
+
+.grid__overlay {
+  background: rgba(darken($primary, 10%), .9);
+  height: 100%;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  transform: translateY(101%);
+  transition: $ease;
+  button {
+    background: none;
+    outline: none;
+    font-weight: 100;
+    letter-spacing: 2px;
+    border: 1px solid $white;
+    color: $white;
+    text-transform: uppercase;
+    padding: 10px;
+    &:hover {
+      transition: $ease;
+      background: $white;
+      color: $secondary;
+      transform: scale(1.05);
+    }
+  }
+}
+
+//project popup overlay
+
+.overlay {
+  position: fixed;
+  background: rgba($dark, 0.7);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  z-index: 3;
+}
+.overlay.open {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.overlay__inner {
+  background: $white;
+  width: 700px;
+  padding: 20px;
+  position: relative;
+  opacity: 1;
+}
+
+.close {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  background: none;
+  outline: 0;
+  color: $dark;
+  border: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  &:hover {
+    color: $secondary;
+  }
+}
+
+.project__image {
+  margin-left: -50%;
+}
+</style>
+</head>
 
 
         <!-- Services Start -->
 <div class="container-fluid service pb-5 py-4" >
     <div class="container pb-5">
         <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-            <h4 style="font-family: Sahel; color: #0a3dbe;">اخبار</h4>
+           <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">اخبار</h1>
         </div>
         <div class="row g-4">
             {% for i in page_obj %}
@@ -24,7 +169,7 @@
                                 <strong>{{ i.title }}</strong>
                             </a>
                         </p>
-                        <p class="h6 mb-4" style="font-family: Sahel;">{{ i.description|safe|truncatewords:25 }}</p>
+                        <p class="h6 mb-4" style=" font-family: Sahel;">{{ i.description|safe|truncatewords:25 }}</p>
                         <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;"> ادامه مطلب</a>
                     </div>
                 </div>
@@ -33,35 +178,35 @@
         </div>
 
         <!-- Pagination -->
-        <nav aria-label="Page navigation example" class="mt-5" style="color: #0a58ca">
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                <li class="page-item" style="background-color: #0a58ca">
-                    <a class="page-link" href="?page=1" style="background-color: #4ac1f7">اولین</a>
-                </li>
-                <li class="page-item"  style="background-color: #0a58ca">
-                    <a class="page-link"  style="background-color: #0a58ca;font-family: Sahel" href="?page={{ page_obj.previous_page_number }}">قبلی</a>
-                </li>
-                {% endif %}
+<nav aria-label="Page navigation example" class="mt-5" style="color: #0a58ca !important;">
+    <ul class="pagination justify-content-center"  >
+        {% if page_obj.has_previous %}
+        <li class="page-item" style="font-family: Sahel;">
+            <a class="page-link" href="?page=1" style=" font-family: Sahel;">اولین</a>
+        </li>
+        <li class="page-item" style="background-color: #0a58ca !important;">
+            <a class="page-link" style=" font-family: Sahel;" href="?page={{ page_obj.previous_page_number }}">قبلی</a>
+        </li>
+        {% endif %}
 
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                    {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                    {% endif %}
-                {% endfor %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active" style="background-color: #0a58ca !important;"><span class="page-link" style="background-color: #0a58ca !important;">{{ num }}</span></li>
+            {% else %}
+                <li class="page-item" style="background-color: #0a58ca !important;"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
 
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">آخرین</a>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
+        {% if page_obj.has_next %}
+        <li class="page-item" style="background-color: #0a58ca !important;">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" style=" font-family: Sahel;">بعدی</a>
+        </li>
+        <li class="page-item" style="background-color: #0a58ca !important;">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" style="background-color: #0a58ca !important;font-family: Sahel;">آخرین</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 
     </div>
 </div>
@@ -71,7 +216,7 @@
         <div class="container-fluid offer-section pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary" style="font-family: Sahel;">اپلیکیشن کانون وکلا</h4>
+                   <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">اپلیکیشن کانون وکلا</h1>
 {#                    <h1 class="display-5 mb-4">Benefits We offer</h1>#}
 {#                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.#}
 {#                    </p>#}
@@ -159,13 +304,13 @@
         <div class="container-fluid blog pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary" style="font-family: Sahel;">وب سایت های مرتبط</h4>
+                    <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">وب سایت های مرتبط</h1>
 
                 </div>
                 <div class="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.2s">
                     <div class="blog-item p-4">
                         <div class="blog-img mb-4 " style=" align-items: center">
-                           <a> <img src="https://hamedanbar.ir/images/links/yvnfl.jpg" class="img-fluid  rounded" style="width: 150px; height: 150px; align-items: center" alt=""></a>
+                           <a> <img src="{% static 'asset/img/clients/ayljq.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px; align-items: center" alt=""></a>
 
                         </div>
 
@@ -173,7 +318,7 @@
                     </div>
                     <div class="blog-item p-4">
                         <div class="blog-img mb-4">
-                           <a> <img src="https://hamedanbar.ir/images/links/yvnfl.jpg" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
+                           <a> <img src="{% static 'asset/img/clients/bjolg.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
                             <div class="blog-title">
                             </div>
                         </div>
@@ -182,7 +327,7 @@
                       </div>
                     <div class="blog-item p-4">
                         <div class="blog-img mb-4">
-                           <a> <img src="https://hamedanbar.ir/images/links/yvnfl.jpg" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
+                           <a> <img src="{% static 'asset/img/clients/ugqpd.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
 
                         </div>
 
@@ -190,7 +335,7 @@
                     </div>
                     <div class="blog-item p-4">
                         <div class="blog-img mb-4">
-                           <a> <img src="https://hamedanbar.ir/images/links/yvnfl.jpg" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
+                           <a> <img src="{% static 'asset/img/clients/amwu1.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
 
                         </div>
 
@@ -270,12 +415,13 @@
         <div class="container-fluid team pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary" style="font-family: Sahel; ">اعضای هیات مدیره </h4>
+                    <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">اعضای هیات مدیره </h1>
 
                 </div>
                 <div class="row g-4">
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
-                        {% for i in heyatmodireh %}
+                                            {% for i in heyatmodireh %}
+
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="team-item">
                             <div class="team-img">
                                 <img src="{{ i.vakil.thumbnail.url }}" class="img-fluid" alt="">
@@ -284,17 +430,13 @@
                                 <h4 class="mb-0" style="font-family: Sahel;">{{ i.vakil.name }} {{ i.vakil.lastname }}</h4>
                                 <p class="mb-0" style="font-family: Sahel;">{{ i.role }}</p>
                             </div>
-{#                            <div class="team-icon">#}
-{#                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>#}
-{#                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>#}
-{#                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>#}
-{#                                <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>#}
-{#                            </div>#}
+
                         </div>
-                        {% endfor %}
                     </div>
+                                        {% endfor %}
 
                 </div>
+
             </div>
         </div>
         <!-- Team End -->
