@@ -1,16 +1,68 @@
+import pandas as pd
 from django.contrib import admin, messages
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView
 
 from .forms import VakilSearchForm, AdminContactForm, ArticleSearchForm
 from .models import Article, Category, Vakil, Riyasat, Comision, ArticleImage, ArticleFile
+import zipfile
+import os
+from django.conf import settings
+from django.core.files import File
 
 
 # Create your views here.
+
+import pandas as pd
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Vakil
+
+
+def upload_excel(request):
+    if request.method == 'POST':
+        excel_file = request.FILES['excel_file']
+        if excel_file.name.endswith('.xlsx') or excel_file.name.endswith('.xls'):
+            try:
+                df = pd.read_excel(excel_file)
+                for index, row in df.iterrows():
+                    # مسیر فایل عکس
+                    image_name = row['عکس']
+                    image_path = os.path.join(settings.MEDIA_ROOT, 'images', image_name)
+
+                    # ایجاد نمونه مدل Vakil
+                    vakil = Vakil(
+                        name=row['نام'],
+                        code=row['شماره پروانه'],
+                        gender=row['جنسیت'],
+                        date=row['تاریخ انقضا'],
+                        lastname=row['نام خانوادگی'],
+                        address=row['آدرس'],
+                        city=row['شهر'],
+                        thumbnail=row['عکس']
+                    )
+
+                    # اختصاص عکس به مدل
+                    if os.path.exists(image_path):
+                        with open(image_path, 'rb') as f:
+                            vakil.thumbnail.save(image_name, File(f), save=True)
+                    vakil.save()
+
+                messages.success(request, 'داده‌ها با موفقیت اضافه شدند.')
+            except Exception as e:
+                messages.error(request, f'خطا در پردازش فایل اکسل: {str(e)}')
+        else:
+            messages.error(request, 'فایل باید در فرمت اکسل (xlsx یا xls) باشد.')
+        return redirect('home:upload_excel')
+    return render(request, 'home/upload_excel.html')
+
 class ArticleList(View):
+
     form_class = ArticleSearchForm
 
     def get(self,request):
@@ -31,7 +83,7 @@ class ArticleList(View):
 class ArticleDetail(View):
     def get(self, request, slug):
         article = get_object_or_404(Article.objects.published(), slug=slug)
-        aks = ArticleImage.objects.filter(article=article)
+        aks = ArticleImage.objects.filter(article=article).all()
         files = ArticleFile.objects.filter(article=article)
         return render(request, 'home/post_detail.html', {'article': article, 'aks': aks, 'files': files})
 
@@ -65,7 +117,7 @@ class CategoryList(ListView):
 
 class SearchList(ListView):
     paginate_by = 1
-    template_name = 'blog/search_list.html'
+    template_name = 'home/vokala.html'
 
     def get_queryset(self):
         search = self.request.GET.get('q')

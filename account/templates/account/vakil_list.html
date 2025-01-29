@@ -47,7 +47,7 @@
                               <form method="POST" enctype="multipart/form-data">
        {% csrf_token %}
        {{ form.as_p }}
-                                  <button type="submit"><a href="{% url 'account:image_upload' a.id %}">Update Image</a></button>
+                                  <button type="submit" style="width: 121px;"><a href="{% url 'account:image_upload' a.id %}"> تغییر عکس </a></button>
     </form>
 
 

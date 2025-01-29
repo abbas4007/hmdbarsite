@@ -31,7 +31,9 @@ class ComisionList(View):
         
 class ComisionDetail(View):
     def get(self,request,id):
-        comisions = Comision.objects.get(id=id)
+        comisions = get_object_or_404(Comision.objects.prefetch_related('vakils'), id = id)
+        print(comisions.vakils.all())
+
         return render(request, 'account/comisiondetail.html', {'comisions': comisions})
 class AddComision(CreateView):
     model = Comision
@@ -39,12 +41,11 @@ class AddComision(CreateView):
     template_name = "account/comision-create-update.html"
     success_url = reverse_lazy('account:home')
 
-class AazaComision(CreateView):
-    model = Comision
-    fields = '__all__'
-    template_name = "account/aaza_comision.html"
-    success_url = reverse_lazy('account:home')
-
+class AazaComision(View):
+    def get(self,request,name):
+        comision = Comision.objects.get(name=name)
+        aza = comision.objects.all()
+        return render(request,'account/aaza_comision.html',{'aza':aza})
 
 class ArticleCreate(CreateView) :
     model = Article
@@ -128,3 +129,8 @@ class vakil_image_view(View):
             form.save()
             return redirect('account:vakil_list')
 
+class AddComision(CreateView):
+    model = Comision
+    fields =  '__all__'
+    template_name = "account/comision-create-update.html"
+    success_url = reverse_lazy('account:home')

@@ -4,6 +4,19 @@
 
 <head>
 <style>
+    /* استایل‌های پایه برای هر بخش */
+.feature-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* افزودن transition برای انیمیشن */
+}
+
+/* انیمیشن هنگام hover */
+.feature-item.hover-lift:hover {
+    transform: translateY(-10px); /* حرکت به بالا */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* افزایش سایه */
+}
     @import url('https://fonts.googleapis.com/css?family=Inconsolata|Merriweather');
 
 $body: 'Inconsolata', monospace;
@@ -148,6 +161,50 @@ button {
 }
 </style>
 </head>
+
+   <!-- Contact, Automation, Search Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- ارتباط با ما -->
+            <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="feature-item p-4 text-center hover-lift">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fas fa-headset fa-4x text-primary"></i>
+                    </div>
+                    <h4>ارتباط با ریاست</h4>
+                    <p class="mb-4">برای ارتباط با ما از طریق تلفن، ایمیل یا چت آنلاین با ما در تماس باشید.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4" href="{% url 'home:contact' %}">اطلاعات بیشتر</a>
+                </div>
+            </div>
+
+            <!-- اتوماسیون -->
+            <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
+                <div class="feature-item p-4 text-center hover-lift">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fas fa-robot fa-4x text-primary"></i>
+                    </div>
+                    <h4>اتوماسیون</h4>
+                    <p class="mb-4">با استفاده از سیستم‌های اتوماسیون، فرآیندهای خود را بهینه‌سازی کنید.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4" href="https://automation.hamedanbar.ir/login.aspx">اطلاعات بیشتر</a>
+                </div>
+            </div>
+
+            <!-- جستجو -->
+            <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.8s">
+                <div class="feature-item p-4 text-center hover-lift">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fas fa-search fa-4x text-primary"></i>
+                    </div>
+                    <h4>جستجو</h4>
+                    <p class="mb-4">با استفاده از ابزار جستجوی پیشرفته، اطلاعات مورد نیاز خود را پیدا کنید.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4" href="{% url 'home:vokala' %}">اطلاعات بیشتر</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact, Automation, Search End -->
 
 
         <!-- Services Start -->
@@ -309,7 +366,7 @@ button {
                 </div>
                 <div class="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.2s">
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4 " style=" align-items: center">
+                        <div class="blog-img mb-4 " style=" margin-left: 100px;">
                            <a> <img src="{% static 'asset/img/clients/ayljq.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px; align-items: center" alt=""></a>
 
                         </div>
@@ -317,7 +374,7 @@ button {
 
                     </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 100px;">
                            <a> <img src="{% static 'asset/img/clients/bjolg.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
                             <div class="blog-title">
                             </div>
@@ -326,7 +383,7 @@ button {
 
                       </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 100px;">
                            <a> <img src="{% static 'asset/img/clients/ugqpd.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
 
                         </div>
@@ -334,7 +391,7 @@ button {
 
                     </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 100px;">
                            <a> <img src="{% static 'asset/img/clients/amwu1.jpg' %}" class="img-fluid  rounded" style="width: 150px; height: 150px;" alt=""></a>
 
                         </div>
@@ -402,7 +459,7 @@ button {
                     </div>
                     <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
                         <div class="bg-primary rounded">
-                            <img src="{% static 'back.jpg' %}" class="img-fluid w-100" alt="">
+                            <img src="https://django-shop-center.s3.ir-thr-at1.arvanstorage.ir/IMG_0010.JPG?versionId=" class="img-fluid w-100" alt="">
                         </div>
                     </div>
                 </div>
@@ -448,7 +505,7 @@ button {
                 </div>
                 <div class="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.2s">
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4 " style=" align-items: center">
+                        <div class="blog-img mb-4 " style=" margin-left: 40px;">
                            <a> <img src="{% static 'asset/img/galery1.jpg' %}" class="img-fluid  rounded" style="width: 300px; height: 300px; align-items: center" alt=""></a>
 
                         </div>
@@ -456,7 +513,7 @@ button {
 
                     </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 40px;">
                            <a> <img src="{% static 'asset/img/galery2.jpg' %}" class="img-fluid  rounded" style="width: 300px; height: 300px;" alt=""></a>
                             <div class="blog-title">
                             </div>
@@ -465,7 +522,7 @@ button {
 
                       </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 40px;">
                            <a> <img src="{% static 'asset/img/galery3.jpg' %}" class="img-fluid  rounded" style="width: 300px; height: 300px;" alt=""></a>
 
                         </div>
@@ -473,7 +530,7 @@ button {
 
                     </div>
                     <div class="blog-item p-4">
-                        <div class="blog-img mb-4">
+                        <div class="blog-img mb-4" style=" margin-left: 40px;">
                            <a> <img src="{% static 'asset/img/galery4.jpg' %}" class="img-fluid  rounded" style="width: 300px; height: 300px;" alt=""></a>
 
                         </div>

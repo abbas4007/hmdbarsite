@@ -230,7 +230,7 @@ class  ComisionVarzeshi(models.Model):
 
 class Comision(models.Model):
     name = models.CharField(max_length = 150,unique = True)
-    vakils = models.ManyToManyField(Vakil,blank = True,null = True,related_name='comisions')
+    vakils = models.ManyToManyField(Vakil,related_name='comisions')
     raees = models.BooleanField(default = False)
 
     def __str__(self):
