@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Sahel';
+    src: url('/static/fonts/Sahel.woff2') format('woff2'),
+         url('/static/fonts/Sahel.woff') format('woff'),
+         url('/static/fonts/Sahel.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cke_editable {
+    font-family: 'Sahel', sans-serif !important;
+}

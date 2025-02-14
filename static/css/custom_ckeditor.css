@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Sahel';
+    src: url('../font/Sahel.ttf') format('truetype');
+url('../font/Sahel-Black.ttf') format('woff2'),
+url('../font/Sahel-Bold.ttf') format('woff'), font-weight: normal;
+    font-style: normal;
+}
+
+.cke_editable {
+    font-family: 'Sahel', sans-serif !important;
+}
+
+
+body {
+    font-family: 'Sahel', sans-serif;
+    direction: rtl; /* برای راست‌چین کردن متن */
+}

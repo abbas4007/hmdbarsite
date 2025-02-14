@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آپلود فایل اکسل</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body dir="rtl">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h2>آپلود فایل اکسل برای افزودن وکیل</h2>
+            </div>
+            <div class="card-body">
+                <!-- نمایش پیام‌ها -->
+                {% if messages %}
+                    <div class="alert alert-info">
+                        <ul>
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" action="{% url 'home:upload_excel' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="excel_file">انتخاب فایل اکسل</label>
+                        <input type="file" class="form-control-file" id="excel_file" name="excel_file" accept=".xlsx, .xls" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block">آپلود و افزودن</button>
+                    </div>
+                </form>
+
+                <div class="alert alert-warning mt-4" role="alert">
+                    لطفاً فایلی با فرمت .xlsx یا .xls انتخاب کنید.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
