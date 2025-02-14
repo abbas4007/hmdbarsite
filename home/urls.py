@@ -4,12 +4,12 @@ from .views import (
 	ArticleDetail,
 	ArticlePreview,
 	CategoryList,
-	ArticleSearchView,
 	VokalaView,
 	VakilCity,
 	VakilPage,
-	ComisionDetailView,
-	upload_excel,
+	ArticleSearchList,
+upload_excel
+
 )
 app_name = "home"
 urlpatterns = [
@@ -23,5 +23,5 @@ urlpatterns = [
 	path('vakil/<int:id>', VakilPage.as_view(), name="vakil"),
 	path('category/<slug:slug>', CategoryList.as_view(), name="category"),
 	path('category/<slug:slug>/page/<int:page>', CategoryList.as_view(), name="category"),
-	path('search/articles/', ArticleSearchView.as_view(), name = 'search_articles'),
-	]
+	path('search/', ArticleSearchList.as_view(), name = 'search_articles'),
+]

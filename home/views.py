@@ -4,29 +4,42 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView
+from psycopg2 import IntegrityError
 
 from .forms import VakilSearchForm, AdminContactForm, ArticleSearchForm
 from .models import Article, Category, Vakil, Riyasat, Comision, ArticleImage, ArticleFile
-
+import pandas as pd
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db import transaction, IntegrityError
+from datetime import datetime
 
 # Create your views here.
-class ArticleList(View):
-    form_class = ArticleSearchForm
+class ArticleSearchList(ListView):
+    model = Article
+    template_name = 'home/home.html'
+    context_object_name = 'articles'
+    paginate_by = 10
 
-    def get(self,request):
-        article = Article.objects.published()
-        if 'search' in request.GET:
-            form = ArticleSearchForm(request.GET)
-            if form.is_valid():
-                cd = form.cleaned_data('search')
-                article = article.filter(Q(title__icontains=cd) |Q(description__icontains=cd))
-        heyatmodireh = Riyasat.objects.all()
-        paginator = Paginator(article, 3)  # Show 25 contacts per page.
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Article.objects.published().filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query)
+            )
+        return Article.objects.published()
 
-        return render(request,'home/home.html',{'article':article,'heyatmodireh':heyatmodireh,"page_obj": page_obj,'form':self.form_class})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')
+        return context
 
+class ArticleList(ArticleSearchList):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heyatmodireh'] = Riyasat.objects.all()
+        return context
 
 class ArticleDetail(View):
     def get(self,request,slug):
@@ -35,6 +48,104 @@ class ArticleDetail(View):
         files = ArticleFile.objects.filter(article = article)
         return render(request, 'home/post_detail.html', {'article' : article, 'imagess' : images, 'files' : files})
 
+
+def parse_date(date_str) :
+    """
+    تابع کمکی برای تبدیل رشته تاریخ به شیء تاریخ
+    """
+    try :
+        return datetime.strptime(date_str, '%Y-%m-%d').date()
+    except ValueError :
+        try :
+            return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S').date()
+        except ValueError :
+            try :
+                return datetime.strptime(date_str, '%Y/%m/%d').date()
+            except :
+                return None
+
+
+def upload_excel(request) :
+    if request.method == 'POST' :
+        try :
+            # دریافت فایل اکسل
+            excel_file = request.FILES['excel_file']
+
+            # خواندن فایل اکسل با pandas
+            df = pd.read_excel(excel_file)
+
+            # تبدیل نام ستون‌ها به حروف کوچک و جایگزینی فاصله با زیرخط
+            df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+
+            # ستون‌های ضروری
+            required_columns = ['نام', 'نام_خانوادگی', 'شماره_پروانه', 'جنسیت',
+                                'تاریخ_انقضا', 'شهر', 'آدرس']
+
+            # بررسی وجود ستون‌های ضروری
+            if not all(col in df.columns for col in required_columns) :
+                missing = set(required_columns) - set(df.columns)
+                messages.error(request, f'ستون‌های ضروری وجود ندارند: {", ".join(missing)}')
+                return redirect('home:upload_excel')
+
+            # بررسی ردیف‌های تکراری در فایل اکسل
+            duplicates = df[df.duplicated('شماره_پروانه', keep = False)]
+            if not duplicates.empty :
+                messages.warning(request, f'ردیف‌های تکراری در فایل اکسل: {len(duplicates)} مورد')
+                return redirect('home:upload_excel')
+
+            success_count = 0
+            errors = []
+
+            # شروع تراکنش دیتابیس
+            with transaction.atomic() :
+                for index, row in df.iterrows() :
+                    try :
+                        # تبدیل تاریخ
+                        date_str = str(row['تاریخ_انقضا']).strip()
+                        expiry_date = parse_date(date_str)
+
+                        # اعتبارسنجی تاریخ
+                        if not expiry_date :
+                            errors.append(f'ردیف {index + 2}: فرمت تاریخ نامعتبر - {date_str}')
+                            continue
+
+                        # اعتبارسنجی جنسیت
+                        gender = str(row['جنسیت']).strip()
+                        if gender not in ['مرد', 'زن'] :
+                            errors.append(f'ردیف {index + 2}: جنسیت نامعتبر - {gender}')
+                            continue
+
+                        # ایجاد یا به‌روزرسانی وکیل
+                        vakil, created = Vakil.objects.update_or_create(
+                            code = row['شماره_پروانه'],
+                            defaults = {
+                                'name' : row['نام'],
+                                'lastname' : row['نام_خانوادگی'],
+                                'gender' : 'M' if gender == 'مرد' else 'F',
+                                'date' : expiry_date,
+                                'city' : row['شهر'],
+                                'address' : row['آدرس'],
+                            }
+                        )
+                        success_count += 1
+
+                    except IntegrityError as e :
+                        errors.append(f'ردیف {index + 2}: شماره پروانه تکراری - {row["شماره_پروانه"]}')
+                    except Exception as e :
+                        errors.append(f'ردیف {index + 2}: {str(e)}')
+
+            # نمایش پیام‌ها به کاربر
+            if errors :
+                messages.error(request, f'{len(errors)} خطا رخ داد. اولین خطاها: {" | ".join(errors[:3])}')
+            if success_count > 0 :
+                messages.success(request, f'{success_count} وکیل با موفقیت پردازش شدند!')
+
+        except Exception as e :
+            messages.error(request, f'خطا در پردازش فایل: {str(e)}')
+
+        return redirect('home:upload_excel')
+
+    return render(request, 'home/upload_excel.html')
 
 class VokalaView(View):
     form_class = VakilSearchForm
@@ -122,6 +233,7 @@ class Contact(View):
     form_class = AdminContactForm
 
     def get(self,request):
+        return render(request,'home/contact2.html',{'form':self.form_class})
         return render(request, 'home/../../account/templates/account/contact2.html', {'form':self.form_class})
 
     def post(self, request, *args, **kwargs) :
@@ -130,4 +242,3 @@ class Contact(View):
             form.save()
             messages.success(request, 'your comment submitted successfully', 'success')
             return redirect('/')
-
