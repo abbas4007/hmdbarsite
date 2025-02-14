@@ -1,0 +1,12 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">پیام شما با موفقیت ارسال شد!</h4>
+        <p>شماره پیگیری: {{ message.id }}</p>
+        <hr>
+        <p class="mb-0">پاسخ شما حداکثر طی 72 ساعت کاری ارسال خواهد شد.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'account/base.html' %}
-{% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
-    {% crispy form %}
+
+    {% csrf_token %}
 
 {% block title %}{% block title-meta %}
 	افزودن خبر
@@ -15,67 +15,51 @@
 		</div>
 		<div class="card-body">
 			<form method="post" enctype="multipart/form-data">{% csrf_token %}
+                {{ form.media }}
+
 				<div class="row">
 					<div class="col-6">
-                        {% autoescape off %}
 						{{ form.title|as_crispy_field|safe }}
-                        {% endautoescape %}
 					</div>
 					<div class="col-6">
-                                                {% autoescape off %}
 
 						{{ form.slug|as_crispy_field|safe }}
-                        {% endautoescape %}
 					</div>
 					<div class="col-12">
-                                                {% autoescape off %}
+    {{ form.media }}
 
 						{{ form.description|as_crispy_field|safe }}
-                        {% endautoescape %}
 					</div>
 
 					<div class="col-6">
-                                                {% autoescape off %}
 
 						{{ form.thumbnail|as_crispy_field|safe }}
-                        {% endautoescape %}
 					</div>
 					<div class="col-6">
-                                                {% autoescape off %}
 
 						{{ form.publish|as_crispy_field|safe }}
-                        {% endautoescape %}
+
 					</div>
 					{% if user.is_superuser %}
 						<div class="col-6">
-                                                {% autoescape off %}
 
 							{{ form.author|as_crispy_field|safe }}
-                        {% endautoescape %}
 						</div>
 						<div class="col-6">
-                                                {% autoescape off %}
 
 							{{ form.status|as_crispy_field|safe }}
-                        {% endautoescape %}
 						</div>
                         	<div class="col-6">
-                                                    {% autoescape off %}
 
 							{{ form.category|as_crispy_field|safe }}
-                            {% endautoescape %}
 						</div>
                         	<div class="col-6">
-                                                    {% autoescape off %}
 
 							{{ form.video|as_crispy_field|safe }}
-                            {% endautoescape %}
 						</div>
                         	<div class="col-6">
-                                                    {% autoescape off %}
 
 							{{ form.file|as_crispy_field|safe }}
-                            {% endautoescape %}
 						</div>
 {#                       <div class="col-6">#}
 {#    {% for form in formset %}#}
@@ -95,7 +79,7 @@
 											<option value="i">ارسال برای ادمین</option>
                                             <option value="">منتشرشده</option>
 
-									
+
                                         </select>
 								</div>
 						 </div>
@@ -106,7 +90,7 @@
 				</div>
 				</div>
 				<button class="btn btn-success">ارسال مقاله</button>
-				
+
 			</form>
 		</div>
 </div>

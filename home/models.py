@@ -1,13 +1,20 @@
 from io import BytesIO
 
+from autoslug import AutoSlugField
+from ckeditor.fields import RichTextField
+
 import arabic_reshaper
 from PIL import Image, ImageDraw, ImageFont
 from bidi.algorithm import get_display
 from django.core.files.base import ContentFile
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from slugify import slugify
+from tinymce.models import HTMLField
 
 from account.models import User
 from extensions.utils import jalali_converter
@@ -81,9 +88,9 @@ class Article(models.Model):
     )
     author = models.ForeignKey(User,  on_delete=models.SET_NULL, related_name='articless', verbose_name="نویسنده",blank = True, null=True)
     title = models.CharField(max_length=200, verbose_name="عنوان مقاله")
-    slug = models.SlugField(max_length=100, unique=True, verbose_name= "آدرس مقاله" ,blank = True ,null = True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True,max_length=100, verbose_name= "آدرس مقاله" ,blank = True ,null = True, editable=True)
     category = models.ManyToManyField(Category, verbose_name="دسته‌بندی", related_name="articles")
-    description = models.TextField(verbose_name="محتوا")
+    description = HTMLField(verbose_name="محتوا")
     thumbnail = models.ImageField(upload_to="image", verbose_name="تصویر مقاله",blank = True,null = True)
     publish = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
     created = models.DateTimeField(auto_now_add=True)
@@ -96,6 +103,7 @@ class Article(models.Model):
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
         ordering = ['-publish']
+
 
     def __str__(self):
         return self.title
@@ -117,6 +125,10 @@ class Article(models.Model):
 
     objects = ArticleManager()
 
+    def save(self, *args, **kwargs) :
+        if not self.slug :
+            self.slug = slugify(self.title, allow_unicode = True)
+        super().save(*args, **kwargs)
 
     def create_image_with_title(self, title) :
         file = 'C:\\Users\\hmdbar\\PycharmProjects\\hamedanbar\\hamedanbar\\static\\font\\BTitr.ttf'
@@ -187,19 +199,48 @@ class Vakil(models.Model):
     GENDER_CHOICES = (
         ('M', 'مرد'),
         ('F', "زن"),
-
     )
-    name = models.CharField(max_length=100, verbose_name="نام" ,blank = True,null = True)
-    code = models.IntegerField( blank = True,null = True,verbose_name="شماره پروانه")
-    gender = models.CharField(blank = True,null = True,max_length=1, choices=GENDER_CHOICES, verbose_name="جنسیت")
-    date = models.DateTimeField(blank = True,null = True, verbose_name="تاریخ انقضا")
-    lastname = models.CharField( blank = True,null = True,max_length = 150,verbose_name="نام خانوادگی")
-    address = models.TextField(blank = True,null = True,verbose_name="آدرس")
-    thumbnail = models.ImageField(upload_to="images", verbose_name= "تصویر وکیل",blank = True,null = True)
-    city = models.CharField(max_length = 150,blank = True,null = True,verbose_name = 'شهر')
+    CITY_CHOICES = (
+        ('همدان', 'همدان'),
+        ('کبودراهنگ', 'کبودراهنگ'),
+        ('ملایر', 'ملایر'),
+        # ... بقیه شهرها
+    )
+    CITY_MAPPING = {
+        'همدان' : 'hamedan',
+        'کبودراهنگ' : 'kabudrahang',
+        'ملایر' : 'malayer',
+        'اسدآباد' : 'asadabad',
+        'نهاوند' : 'nahavand',
+        'تویسرکان' : 'tuyserkan',
+        'رزن' : 'razan',
+        'درگزین' : 'dargazin',
+        'بهار' : 'bahar',
+        'فامنین' : 'famenin',
+    }
 
+    name = models.CharField(max_length=100, verbose_name="نام", blank=True, null=True)
+    code = models.IntegerField(blank=True, null=True, verbose_name="شماره پروانه")
+    gender = models.CharField(blank=True, null=True, max_length=1, choices=GENDER_CHOICES, verbose_name="جنسیت")
+    date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ انقضا")
+    lastname = models.CharField(blank=True, null=True, max_length=150, verbose_name="نام خانوادگی")
+    address = models.TextField(blank=True, null=True, verbose_name="آدرس")
+    thumbnail = models.ImageField(upload_to="images", verbose_name="تصویر وکیل", blank=True, null=True)
+    city = models.CharField(
+        max_length = 150,
+        choices = CITY_CHOICES,
+        verbose_name = 'شهر',
+        blank = True,
+        null = True
+    )
+    city_slug = models.SlugField(max_length = 150, blank = True, verbose_name = "اسلاگ شهر")
+
+    def save(self, *args, **kwargs) :
+        if self.city and not self.city_slug :
+            self.city_slug = self.CITY_MAPPING.get(self.city, slugify(self.city))
+        super().save(*args, **kwargs)
     def __str__(self):
-        return str(self.name)
+        return f"{self.name} {self.lastname}"
 
 
 
@@ -214,32 +255,32 @@ class Vakil(models.Model):
 
 class Riyasat(models.Model):
     vakil = models.ForeignKey(Vakil,on_delete = models.CASCADE,related_name = 'vakils',verbose_name = 'وکیل' ,blank = True,null = True)
-    role  = models.CharField(max_length = 50,verbose_name = 'نقش',unique = True)
+    role  = models.CharField(max_length = 50,verbose_name = 'نقش')
 
     def __str__(self):
         return str(self.vakil)
 
 
-class  ComisionVarzeshi(models.Model):
-    aaza = models.ForeignKey(Vakil,on_delete = models.CASCADE,blank = True,null = True)
-    raees = models.BooleanField(default = False)
 
-    def __str__(self):
-        return self.aaza.name
+
 
 
 class Comision(models.Model):
-    name = models.CharField(max_length = 150,unique = True)
-    vakils = models.ManyToManyField(Vakil,blank = True,null = True,related_name='comisions')
-    raees = models.BooleanField(default = False)
+    name = models.CharField(max_length=150, unique=True)
+    vakils = models.ManyToManyField(Vakil, related_name='comisions')
+    chairman = models.ForeignKey(Vakil, on_delete=models.SET_NULL, null=True, blank=True, related_name='headed_comisions')
 
     def __str__(self):
         return self.name
-
-
 
 class Comment(models.Model):
     name= models.CharField(max_length = 150,blank = True,null = True)
     lastname = models.CharField(max_length = 150,blank = True,null = True)
     mobile =models.CharField(max_length = 11,blank = True,null = True)
     message = models.TextField(blank = True,null = True)
+
+
+@receiver(pre_save, sender = Article)
+def generate_article_slug(sender, instance, **kwargs) :
+    if not instance.slug :  # فقط اگر Slug خالی است آن را تولید کن
+        instance.slug = slugify(instance.title, allow_unicode = True)  # فارسی پشتیبانی می‌شود

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Vakil, Article, Comment
+from ckeditor.widgets import CKEditorWidget
 
 
 class ImageForm(forms.ModelForm):

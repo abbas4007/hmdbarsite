@@ -1,0 +1,20 @@
+{% extends 'account/base.html' %}
+
+{% block title %}حذف عضو هیئت مدیره{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <p>آیا از حذف عضو هیئت مدیره "{{ object.vakil.name }} {{ object.vakil.lastname }}" مطمئن هستید؟</p>
+                    <button type="submit" class="btn btn-danger">حذف</button>
+                    <a href="{% url 'account:riyasat_list' %}" class="btn btn-secondary">لغو</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

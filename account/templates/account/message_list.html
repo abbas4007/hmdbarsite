@@ -1,0 +1,41 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">مدیریت پیامها</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>شماره</th>
+                    <th>نام</th>
+                    <th>موضوع</th>
+                    <th>تاریخ</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                <tr>
+                    <td>{{ message.id }}</td>
+                    <td>{{ message.full_name }}</td>
+                    <td>{{ message.subject }}</td>
+                    <td>{{ message.created_at|date:"Y/m/d H:i" }}</td>
+                    <td>
+                        <span class="badge {% if message.status == 'pending' %}bg-warning{% else %}bg-success{% endif %}">
+                            {{ message.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'account:message_update' message.pk %}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
