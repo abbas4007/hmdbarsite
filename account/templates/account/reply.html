@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>پاسخ به: {{ message.subject }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <textarea name="reply_message" rows="5" cols="40" required></textarea>
+    <button type="submit">ارسال پاسخ</button>
+</form>
+
+</body>
+</html>

@@ -1,31 +1,126 @@
 {% extends 'account/base.html' %}
-{% load crispy_forms_tags %}
-    {% crispy form %}
-
-{% block title %}{% block title-meta %}
-	افزودن کمیسیون
-{% endblock %}{% endblock %}
-
-{% block main %}
-<div class="col-md-12">
-	<div class="card card-primary">
-		<div class="card-header">
-			<h3 class="card-title mb-0 float-left">افزودن کمیسیون</h3>
-		</div>
-		<div class="card-body">
-			<form method="post" enctype="multipart/form-data">{% csrf_token %}
-				<div class="row">
-					<div class="col-6">
-						{{ form.name|as_crispy_field|safe }}
-					</div>
-					<div class="col-6">
-						{{ form.vakils.aaza|as_crispy_field|safe }}
-					</div>
-
-				<button class="btn btn-success"> افزودن کمیسیون</button>
-                </div>
-			</form>
-		</div>
-</div>
-</div>
+{% load static %}
+{% block headers %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block title-meta %}عنوان صفحه{% endblock %}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/assets/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Bootstrap 4 RTL -->
+  <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css">
+  <!-- Custom style for RTL -->
+  <link rel="stylesheet" href="{% static 'registration/adminlte/assets/css/custom.css' %}">
+</head>
 {% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'account:home' %}" class="nav-link">صفحه اصلی</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'home:home' %}" target="_blank" class="nav-link">نمایش سایت</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto-navbav">
+
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  {% include 'inc/sidebar.html' %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <h1 class="form-title text-center">اضافه کردن کمیسیون</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_name" class="form-label">نام کمیسیون</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="mb-3" >
+                            <label for="id_vakils" class="form-label" >اعضای کمیسیون</label>
+                            <select id="id_vakils" name="vakils" class="form-select" multiple="multiple">
+                                {% for vakil in form.vakils.field.queryset %}
+                                    <option value="{{ vakil.id }}">{{ vakil.name }} {{ vakil.lastname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+<div class="mb-3">
+    <label for="id_chairman" class="form-label">رئیس کمیسیون</label>
+    <select id="id_chairman" name="chairman" class="form-select">
+        <option value="">انتخاب کنید</option>
+        {% for vakil in form.vakils.field.queryset %}
+            <option value="{{ vakil.id }}">{{ vakil.name }} {{ vakil.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom">ذخیره</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Initialize Select2 -->
+    <script>
+        $(document).ready(function() {
+            $('#id_vakils').select2({
+                placeholder: "اعضای کمیسیون را انتخاب کنید",
+                allowClear: true,
+                dir: "rtl" // برای راست‌چین کردن
+            });
+
+            $('#id_raees').select2({
+                placeholder: "رئیس کمیسیون را انتخاب کنید",
+                allowClear: true,
+                dir: "rtl" // برای راست‌چین کردن
+            });
+        });
+    </script>
+</div>
+</body>
+
+{% endblock %}
+</html>

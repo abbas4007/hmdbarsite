@@ -1,212 +1,256 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{% static 'asset/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'asset/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'asset/vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/css/style.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <style>
+        /* FontAwesome for working BootSnippet */
+        @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-    /* FontAwesome for working BootSnippet :> */
+        #team {
+            background: #f8f9fa !important;
+            padding: 60px 0;
+        }
 
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-#team {
-    background: #eee !important;
-}
+        .btn-primary {
+            color: #fff;
+            background-color: #1268a5;
+            border-color: #1d76cf;
+        }
 
-.btn-primary:hover,
-.btn-primary:focus {
-    background-color: #1363a5;
-    border-color: #105d8d;
-    box-shadow: none;
-    outline: none;
-}
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #1363a5;
+            border-color: #105d8d;
+            box-shadow: none;
+            outline: none;
+        }
 
-.btn-primary {
-    color: #fff;
-    background-color: #1268a5;
-    border-color: #1d76cf;
-}
+        .section-title {
+            text-align: center;
+            color: #076eb6;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
 
-section {
-    padding: 60px 0;
-}
+        .image-flip {
+            perspective: 1000px;
+        }
 
-section .section-title {
-    text-align: center;
-    color: #076eb6;
-    margin-bottom: 50px;
-    text-transform: uppercase;
-}
+        .image-flip:hover .frontside,
+        .image-flip.hover .frontside {
+            transform: rotateY(180deg);
+        }
 
-#team .card {
-    border: none;
-    background: #ffffff;
-}
+        .image-flip:hover .backside,
+        .image-flip.hover .backside {
+            transform: rotateY(0deg);
+        }
 
-.image-flip:hover .backside,
-.image-flip.hover .backside {
-    -webkit-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-    border-radius: .25rem;
-}
+        .frontside,
+        .backside {
+            backface-visibility: hidden;
+            transition: transform 1s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
 
-.image-flip:hover .frontside,
-.image-flip.hover .frontside {
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    -o-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-}
+        .frontside {
+            z-index: 2;
+            margin-bottom: 30px;
+        }
 
-.mainflip {
-    -webkit-transition: 1s;
-    -webkit-transform-style: preserve-3d;
-    -ms-transition: 1s;
-    -moz-transition: 1s;
-    -moz-transform: perspective(1000px);
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transition: 1s;
-    transform-style: preserve-3d;
-    position: relative;
-}
+        .backside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(-180deg);
+            background: white;
+            box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+            border-radius: 0.25rem;
+        }
 
-.frontside {
-    position: relative;
-    -webkit-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    z-index: 2;
-    margin-bottom: 30px;
-}
+        .card {
+            border: none;
+            background: #ffffff;
+            min-height: 312px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.backside {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: white;
-    -webkit-transform: rotateY(-180deg);
-    -moz-transform: rotateY(-180deg);
-    -o-transform: rotateY(-180deg);
-    -ms-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-    -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-    -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-    box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-}
+        .card-body img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
 
-.frontside,
-.backside {
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: 1s;
-    -webkit-transform-style: preserve-3d;
-    -moz-transition: 1s;
-    -moz-transform-style: preserve-3d;
-    -o-transition: 1s;
-    -o-transform-style: preserve-3d;
-    -ms-transition: 1s;
-    -ms-transform-style: preserve-3d;
-    transition: 1s;
-    transform-style: preserve-3d;
-}
+        .card-title {
+            color: #007b5e !important;
+            font-family: 'B Nazanin', sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
 
-.frontside .card,
-.backside .card {
-    min-height: 312px;
-}
+        .card-text {
+            font-family: 'B Nazanin', sans-serif;
+            font-size: 16px;
+            color: #333;
+        }
 
-.backside .card a {
-    font-size: 18px;
-    color: #007b5e !important;
-}
+        .banner-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
 
-.frontside .card .card-title,
-.backside .card .card-title {
-    color: #007b5e !important;
-}
+        /* Pagination RTL fixes */
+        .pagination {
+            padding-right: 0;
+        }
 
-.frontside .card .card-body img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-}
-</style>
-<meta content="" name="description">
-  <meta content="" name="keywords">
+        .page-item:first-child .page-link {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
-  <!-- Favicons -->
-  <link href="{% static 'asset/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'aasset/img/apple-touch-icon.png' %}"rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="{% static 'asset/vendor/aos/aos.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-  <link href="{% static 'asset/css/style.css' %}" rel="stylesheet">
+        .page-item:last-child .page-link {
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+    <title>صفحه تیم</title>
 </head>
-
-<br>
-
-<div class="container-fluid">
-
-
-  <img  src="{% static 'banner.jpg'  %}"  style="width: 100%;height: 294px" alt="Card image">
-
+<body>
+    <!-- بنر -->
+    <div class="container-fluid">
+        <img src="{% static 'banner.jpg' %}" class="banner-img" alt="بنر">
     </div>
-<section id="team" class="team">
-      <div class="container">
 
-
-
-        <div class="row">
-          {% for i in page_obj %}
-
-              <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid"  src="{% if i.thumbnail %}{{i.thumbnail.url}}{% else %}#{% endif %}" alt="card image"></p>
-<a href="{% url 'home:vakil' i.id %}">
-    <p class="card-text" style="align-content: center; font-family: 'B Nazanin'; font-size: 16px;">{{i.name}}  {{i.lastname}}</p></a>                                    <p class="card-text">{{i.address}}</p>
-                                    <a href="https://www.fiverr.com/share/qb8D02" class="btn btn-primary btn-sm"><i class="fa fa-phone"></i></a>
-                                  <p class="card-text" style="align-content: center; font-family: 'B Nazanin'; font-size: 16px;">09188114422</p></a>                                    <p class="card-text">{{i.address}}</p>
-
+    <!-- بخش تیم -->
+    <section id="team" class="team">
+        <div class="container">
+            <div class="section-title">
+    <h2>وکلای {{ city }}</h2>
+</div>
+            <div class="row">
+                {% for i in page_obj %}
+                    <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
+                        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                            <div class="mainflip">
+                                <!-- جلوی کارت -->
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <p><img class="img-fluid" src="{% if i.thumbnail %}{{i.thumbnail.url}}{% else %}#{% endif %}" alt="عکس پروفایل"></p>
+                                            <a href="{% url 'home:vakil' i.id %}">
+                                                <p class="card-title">{{i.name}} {{i.lastname}}</p>
+                                            </a>
+                                            <p class="card-text">{{i.address}}</p>
+                                            <a href="tel:09188114422" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-phone"></i> تماس
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <a href="{% url 'home:vakil' i.id %}"><p class="card-title" style="align-content: center; font-family: 'B Nazanin'; font-size: 16px;">{{i.name}}  {{i.lastname}}</p></a>
-                                    <p class="card-text">همدان-آرامگاه بوعلی- ابتدای کولانج- ساختمان اداری الماس- طبقه 4- واحد 38-</p>
-
-                                    <p class="card-text">{{i.description}}</p>
-
+                                <!-- پشت کارت -->
+                                <div class="backside">
+                                    <div class="card">
+                                        <div class="card-body text-center mt-4">
+                                            <a href="{% url 'home:vakil' i.id %}">
+                                                <p class="card-title">{{i.name}} {{i.lastname}}</p>
+                                            </a>
+                                            <p class="card-text">{{i.description}}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">&laquo;</span>
+                                </li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">&raquo;</span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
-    {% endfor %}
-      </div>
-  </div>
+        </div>
+    </section>
 
-
-</section>
-</div>
-
-
-
+    <!-- اسکریپت‌های ضروری -->
+    <script src="{% static 'asset/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'asset/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'asset/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'asset/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'asset/js/main.js' %}"></script>
+</body>
 </html>

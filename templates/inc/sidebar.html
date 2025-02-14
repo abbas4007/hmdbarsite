@@ -10,25 +10,10 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-
-        <div class="info">
-          <a href="#" class="d-block">
-            {% if user.get_full_name %}
-              {{user.get_full_name}}
-            {% else %}
-              {{user.username}}
-            {% endif %}
-          </a>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
+  
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+          
             <li class="nav-item ">
               <a href="#" class="nav-link active">
                 <i class="nav-icon fa fa-newspaper"></i>
@@ -37,9 +22,15 @@
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{% url 'account:article_create' %}" class="nav-link">
+              <ul class="nav nav-treeview" style="list-style-type:none;">
+                  <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:home' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p> اخبار </p>
+                  </a>               
+                </li>
+                <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:create_article' %}" class="nav-link">
                     <i class="fa fa-plus-square"></i>
                     <p>افزودن خبر </p>
                   </a>               
@@ -47,33 +38,137 @@
               </ul>
             </li>
         </ul>
-         <li class="nav-item">
-            <a href="{% url 'account:vakil_list' %}" class="nav-link">
-              <i class="fa fa-users"></i>
-              <p> فهرست وکلا </p>
-            </a>          </li>
-                <li class="nav-item">
+          
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item ">
+              <a href="{% url 'account:vakil_list' %}"class="nav-link active">
+                <i class="nav-icon fa fa-newspaper"></i>
+                
+                                <p> فهرست وکلا</p>
+
+                  <i class="right fas fa-angle-left"></i>
+               
+              </a>
+              <ul class="nav nav-treeview" style="list-style-type:none;">
+                  <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:vakil_list' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p> فهرست وکلا </p>
+                  </a>               
+                </li>
+                <li class="nav-item" style="list-style-type:none;">
                   <a href="{% url 'account:vakil_add' %}" class="nav-link">
-                    <i class="fa fa-user"></i>
-                    <p>افزودن وکیل</p>
-                  </a>                </li>
+                    <i class="fa fa-plus-square"></i>
+                    <p>افزودن وکیل </p>
+                  </a>               
+                </li>
+              </ul>
+            </li>
+        </ul>
+
+                   
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item ">
+              <a href=href="{% url 'account:riyasat_list' %}" class="nav-link active">
+                <i class="nav-icon fa fa-newspaper"></i>
+                
+                                <p> هیات مدیره</p>
+
+                  <i class="right fas fa-angle-left"></i>
+               
+              </a>
+              <ul class="nav nav-treeview" style="list-style-type:none;">
+                <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:riyasat_list' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p>هیات مدیره </p>
+                  </a>               
+                </li>
+                  <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:add_riyasat' %}" class="nav-link">
+                    <i class="fa fa-plus-square"></i>
+                    <p>افزودن عضو هیات مدیره </p>
+                  </a>               
+                </li>
+              </ul>
+                              <ul class="nav nav-treeview" style="list-style-type:none;">
+                <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:riyasat_list' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p>هیات مدیره </p>
+                  </a>               
+                </li>
+                  <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:add_riyasat' %}" class="nav-link">
+                    <i class="fa fa-plus-square"></i>
+                    <p>افزودن عضو هیات مدیره </p>
+                  </a>               
+                </li>
+              </ul>
 
             </li>
-          <li class="nav-item">
-            <a href="{% url 'account:riyasat_list' %}" class="nav-link">
-              <i class="fa fa-user-shield"></i>
-              <p> هیات مدیره</p>
-            </a>   
-                 </li>
-                 <li class="nav-item">
-                  <a href="{% url 'account:comision_list' %}" class="nav-link">
-                    <i class="fa fa-user-shield"></i>
-                    <p>  کمیسیون ها</p>
-                  </a>       
-                 </li>
         </ul>
+          
+           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item ">
+              <a href=href="{% url 'account:comision' %}" class="nav-link active">
+                <i class="nav-icon fa fa-newspaper"></i>
+                
+                                <p>  کمیسیون ها</p>
+
+                  <i class="right fas fa-angle-left"></i>
+               
+              </a>
+              <ul class="nav nav-treeview" style="list-style-type:none;">
+                <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:comision' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p> کمیسیون </p>
+                  </a>               
+                </li>
+                  <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:comision_add' %}" class="nav-link">
+                    <i class="fa fa-plus-square"></i>
+                    <p>افزودن کمیسیون </p>
+                  </a>               
+                </li>
+              </ul>
+            </li>
+        </ul>
+          
+                 
+                   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item ">
+              <a href=href="{% url 'account:comision' %}" class="nav-link active">
+                <i class="nav-icon fa fa-newspaper"></i>
+                
+                                <p> پیام ها  </p>
+
+                  <i class="right fas fa-angle-left"></i>
+               
+              </a>
+              <ul class="nav nav-treeview" style="list-style-type:none;">
+                <li class="nav-item" style="list-style-type:none;">
+                  <a href="{% url 'account:message_list' %}" class="nav-link">
+                    <i class="fa fa-list"></i>
+                    <p> لیست </p>
+                  </a>               
+                </li>
+               
+              </ul>
+            </li>
+        </ul>
+
        
-      </ul>
+     
       </nav>
       <!-- /.sidebar-menu -->
     </div>

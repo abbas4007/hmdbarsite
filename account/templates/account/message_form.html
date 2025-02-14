@@ -1,0 +1,32 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">پاسخ به پیام</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">وضعیت</label>
+                    {{ form.status }}
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">پاسخ</label>
+                    {{ form.response }}
+                    <small class="text-muted">این پاسخ از طریق پیامک ارسال خواهد شد</small>
+                </div>
+                
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check"></i>
+                    ذخیره تغییرات
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

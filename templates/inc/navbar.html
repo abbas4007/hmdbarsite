@@ -14,21 +14,20 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                 <li><a class="nav-link scrollto active" href="#hero" style="font-family: Sahel; color: #0b1281;">صفحه اصلی</a></li>
-                <li><a class="nav-link scrollto" href="#services" style="font-family: Sahel; color: #0b1281;">اخبار</a></li>
+                <li><a class="nav-link scrollto" href="#news" style="font-family: Sahel; color: #0b1281;" >اخبار</a></li>
                 <li><a class="nav-link scrollto" href="{% url 'home:vokala' %}" style="font-family: Sahel; color: #0b1281;">جستجوی وکیل</a></li>
-                <li><a class="nav-link scrollto" href="#team" style="font-family: Sahel; color: #0b1281;">هیات مدیره</a></li>
+                <li><a class="nav-link scrollto" href="#riyast" style="font-family: Sahel; color: #0b1281;">هیات مدیره</a></li>
                 <div class="nav-item dropdown" style="font-family: Sahel; color: #0b1281;">
                     <a href="#" class="nav-link" data-bs-toggle="dropdown" style="font-family: Sahel; color: #0b1281;">
                         <span class="dropdown-toggle" style="font-family: Sahel; color: #0b1281;">کمیسیون ها</span>
                     </a>
-                    <div class="dropdown-menu">
-                        <a href="feature.html" class="dropdown-item" style="font-family: Sahel; color: #073270;">کارآموزی</a>
-                        <a href="team.html" class="dropdown-item" style="font-family: Sahel; color: #0a53be;">فرهنگی و رفاهی</a>
-                        <a href="testimonial.html" class="dropdown-item" style="font-family: Sahel; color: #0a53be;">اداره معاضدت و تسخیری</a>
-                        <a href="offer.html" class="dropdown-item" style="font-family: Sahel; color: #0a53be;">حقوق بشر</a>
-                        <a href="FAQ.html" class="dropdown-item" style="font-family: Sahel; color: #0a53be;">نقل و انتقالات</a>
-                        <a href="404.html" class="dropdown-item" style="font-family: Sahel; color: #0a53be;">ورزشی</a>
-                    </div>
+                   <div class="dropdown-menu">
+    {% for i in comi %}
+    <a href="{% url 'account:comision_detail' i.id %}" class="dropdown-item" style="font-family: Sahel; color: #073270;">
+        {{ i.name }}
+    </a>
+    {% endfor %}
+</div>
                 </div>
             </div>
         </div>
@@ -53,7 +52,7 @@
             </div>
         </div>
         <div class="header-carousel-item">
-            <img src="{% static 'back.jpg' %}" class="img-fluid" style="width: 100%;" alt="Image">
+            <img src="{% static 'aks.jpg' %}" class="img-fluid" style="width: 100%;" alt="Image">
             <div class="carousel-caption">
                 <div class="container">
                     <div class="row g-5">

@@ -5,61 +5,41 @@
 {% endblock %}{% endblock %}
 
 {% block main %}
-		<div class="row">
-          <div class="col-12">
-              <div class="card">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th> نام کمیسیون</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for a in comisions %}
-
-                        <tr>
-
-                          <td class="text-center" >
-                            <div style="align-items: center;">
-
-                                                                                <a href="{% url 'account:comision_detail' a.id %}">
-                                                                                  <p >{{a.name}}</p></a>
-
-
-                                                                                  <a class="btn btn-sm  btn-light disabled " href="https://hamedanbar.ir/admin/commissions/sort/up/20">
-                                                                                    <i class="fa fa-arrow-up"></i>
-                                                                                </a>
-                                                                                <a class="btn btn-sm  btn-dark " href="https://hamedanbar.ir/admin/commissions/sort/down/20">
-                                                                                    <i class="fa fa-arrow-down"></i>
-                                                                                </a>
-                                                                                <a class="btn btn-sm btn-warning" href="{% url 'account:comision_detail' a.id %}">
-                                                                                    <i class="fa fa-user ml-1"></i> مدیریت اعضا
-                                                                                </a>
-                                                                                <a class="btn btn-sm btn-success" href="https://hamedanbar.ir/admin/commissions/20/sub/add">
-                                                                                    <i class="fa fa-user ml-1"></i> دسته بندی
-                                                                                </a>
-                                                                                <a class="btn btn-sm btn-primary ml-1" href="https://hamedanbar.ir/admin/commissions/edit/20">
-                                                                                    <i class="fa fa-pencil ml-1"></i> ویرایش
-                                                                                </a>
-                                                                                <a class="btnDelete btn btn-sm btn-danger" data-warning-text="با حذف این کمیسیون اعضا، دسته بندی ها و مطالب دسته بندی نیز حذف می شود." href="https://hamedanbar.ir/admin/commissions/destroy/20">
-                                                                                    <i class="fa fa-trash ml-1"></i> حذف
-                                                                                </a>
-                                                                            </div>
-                          </td>
-
-                        </tr>
-
-                      {% endfor %}
-                    </tbody>
-                  </table>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th> نام کمیسیون</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in comi %}
+                                <tr>
+                                    <td class="text-center">
+                                        <div style="align-items: center;">
+                                            <a href="{% url 'account:comision_detail' a.id %}">
+                                                <p>{{ a.name }}</p>
+                                            </a>
+                                            <a class="btn btn-sm btn-primary ml-1" href="{% url 'account:comision_edit' a.id %}">
+                                                <i class="fa fa-pencil ml-1"></i> ویرایش
+                                            </a>
+                                            <a class="btn btn-sm btn-danger ml-1" href="{% url 'account:comision_delete' a.id %}">
+                                                <i class="fa fa-trash ml-1"></i> حذف
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-
-          </div>
+            </div>
+            <!-- /.card -->
         </div>
+    </div>
 {% endblock %}

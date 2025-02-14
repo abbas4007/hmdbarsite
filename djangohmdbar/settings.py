@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+
 from templatetags import file_size
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,6 +48,9 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'templatetags',
     'widget_tweaks',
+    'tinymce',
+    'captcha',
+
 
 )
 
@@ -74,6 +78,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'account.context_processors.comisions',
+
             ],
         },
     },
@@ -88,7 +94,7 @@ WSGI_APPLICATION = 'djangohmdbar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hmdbar',
+        'NAME': 'kanoon',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
@@ -137,7 +143,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'account:home'
+LOGOUT_REDIRECT_URL = 'account:login'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -157,3 +165,25 @@ AUTH_USER_MODEL = 'account.User'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'silver',
+    'plugins': 'directionality lists link image code', # افزودن پلاگین directionality
+    'toolbar': 'undo redo | styleselect | bold italic | rtl ltr | alignleft aligncenter alignright | bullist numlist | link image | code',
+    'content_css': '/static/css/custom_ckeditor.css', # مسیر CSS
+    'directionality': 'rtl', # راست‌چین پیش‌فرض
+    'font_formats': 'Sahel=Sahel, sans-serif;', # افزودن فونت به لیست
+    'font_family': 'Sahel', # فونت پیش‌فرض
+'rtl_ui': True,
+}
+
+# تنظیمات قاصدک
+GHASEDAK_API_KEY = 'vuyDb4/n8/XM44gZHDzGzHMyF8CKqnSGgftvGqUWZUo'
+SMS_LINE_NUMBER = '100022029'
+
+#
+# POSTGRESQL_DB_HOST=bromo.liara.cloud
+# POSTGRESQL_DB_PORT=30334
+# POSTGRESQL_DB_USER='root'
+# POSTGRESQL_DB_PASS='YY773ElmNtBrv4xrJOdeBY47'
+# POSTGRESQL_DB_NAME='postgres'

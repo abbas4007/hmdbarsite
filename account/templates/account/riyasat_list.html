@@ -5,59 +5,52 @@
 {% endblock %}{% endblock %}
 
 {% block main %}
-		<div class="row">
-          <div class="col-12">
-            {% if object_list %}
-              <div class="card">
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover">
+<div class="row">
+    <div class="col-12">
+        {% if object_list %}
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
                     <thead>
-                      <tr>
-                        <th> نام وکیل</th>
-                        <th>نام خانوادگی</th>
-                        <th> عکس</th>
-                      </tr>
+                        <tr>
+                            <th>نام وکیل</th>
+                            <th>نام خانوادگی</th>
+                            <th>عکس</th>
+                            <th>شهر</th>
+                            <th>عملیات</th> <!-- ستون جدید برای دکمه حذف -->
+                        </tr>
                     </thead>
                     <tbody>
-                      {% for a in object_list %}
-
+                        {% for a in object_list %}
                         <tr>
-
-                          <td>
-                                                                                <a href="{% url 'account:vakil_add'  %}">
-                                                                                  <p >{{a.vakil.name}}</p></a>
-                           
-                          </td></a>
-                                                    <td>{{a.vakil.lastname}}</td>
-
-                          <td><img src="{{a.vakil.thumbnail.url}}" width="120">
-                            <div class="fileuploader_1280">
-                              <a class="btn btn-primary btn-sm btn-change-avatar" style="position: relative; overflow: hidden; cursor: default;" href=" url 'account:home'"><i class="fa fa-upload"></i>
-                                  <input type="file" id="ajax-upload-id-1726861225841" name="image" accept="image/*" style="position: absolute; cursor: pointer; top: 0px; width: 100%; height: 100%; left: 0px; z-index: 100; opacity: 0;">
-                              </a>
-                              <div>
-
-                              </div>
-                            </div>
-                            <div class="ajax-file-upload-container"></div>
+                            <td>
+                                <a href="{% url 'account:vakil_add' %}">
+                                    <p>{{ a.vakil.name }}</p>
+                                </a>
                             </td>
-                          </td>
-                          <td>{{a.city}}</td>
+                            <td>{{ a.vakil.lastname }}</td>
+                            <td>
+                                <img src="{{ a.vakil.thumbnail.url }}" width="120">
 
-                          
+                                <div class="ajax-file-upload-container"></div>
+                            </td>
+                            <td>{{ a.city }}</td>
+                            <td>
+                                <!-- دکمه حذف -->
+                                <a href="{% url 'account:riyasat_delete' a.pk %}" class="btn btn-danger btn-sm">حذف</a>
+                            </td>
                         </tr>
-
-                      {% endfor %}
+                        {% endfor %}
                     </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-              {% else %}
-              <h3>محتوایی برای نمایش وجود ندارد.</h3>
-              {% endif %}
-          </div>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
+        {% else %}
+        <h3>محتوایی برای نمایش وجود ندارد.</h3>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

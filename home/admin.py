@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 
 from . import models
-from .models import  ArticleFile,Comment, Article, Category, Vakil, Riyasat, Comision, ComisionVarzeshi, ArticleImage
+from .models import  ArticleFile,Comment, Article, Category, Vakil, Riyasat, ArticleImage,Comision
 from import_export.admin import ImportExportModelAdmin
 import pandas as pd
 from django.http import JsonResponse
@@ -145,9 +145,13 @@ class ArticleFileAdmin(admin.ModelAdmin) :
     pass
 
 
-admin.site.register(Article, ArticleAdmin)
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('title', 'slug')
+    readonly_fields = ('slug',)
+
 admin.site.register(Vakil, VakilAdmin)
 admin.site.register(Riyasat)
-admin.site.register(Comision)
 admin.site.register(Comment)
-admin.site.register(ComisionVarzeshi)
+admin.site.register(Comision)

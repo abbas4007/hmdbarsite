@@ -1,0 +1,109 @@
+<!-- comision_create.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #0d6efd;
+        border: none;
+        color: white;
+        padding: 2px 8px;
+    }
+
+    .select2-container--default .select2-search--inline .select2-search__field {
+        margin-top: 5px;
+    }
+</style>
+<div class="container mt-5">
+    <h1 class="mb-4 text-primary">ایجاد کمیسیون جدید</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">نام کمیسیون</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="text-danger">{{ form.name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.description.id_for_label }}" class="form-label">توضیحات</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <div class="text-danger">{{ form.description.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3 form-check">
+            {{ form.raees }}
+            <label for="{{ form.raees.id_for_label }}" class="form-check-label">رئیس</label>
+            {% if form.raees.errors %}
+                <div class="text-danger">{{ form.raees.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.vakils.id_for_label }}" class="form-label">وکلا</label>
+            {{ form.vakils }}
+            {% if form.vakils.errors %}
+                <div class="text-danger">{{ form.vakils.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">ذخیره</button>
+    </form>
+</div>
+    {% block extra_scripts %}
+<script>
+    $(document).ready(function() {
+        // فعال‌سازی Select2 با قابلیت جستجو
+        $('.select2').select2({
+            placeholder: "جستجو و انتخاب وکلا...",
+            allowClear: true,
+            language: {
+                noResults: function() {
+                    return "نتیجه‌ای یافت نشد!";
+                }
+            }
+        });
+    });
+</script>
+        <script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            ajax: {
+                url: '/vakil/search/',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 2,
+            placeholder: "جستجو و انتخاب وکلا...",
+            language: {
+                noResults: function() {
+                    return "نتیجه‌ای یافت نشد!";
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

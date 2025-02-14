@@ -1,0 +1,23 @@
+<!-- templates/partials/search_box.html -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="GET" action="{% url 'home:search_articles' %}" class="search-form">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        class="form-control" 
+                        placeholder="جستجو در اخبار..." 
+                        aria-label="Search"
+                        value="{{ request.GET.q }}"
+                    >
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

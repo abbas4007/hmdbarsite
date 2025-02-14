@@ -1,7 +1,7 @@
 {% extends 'account/base.html' %}
 {% load crispy_forms_tags %}
 
-    {% crispy form %}
+    {% csrf_token %}
 
 {% block title %}{% block title-meta %}
 	افزودن خبر
@@ -15,6 +15,8 @@
 		</div>
 		<div class="card-body">
 			<form method="post" enctype="multipart/form-data">{% csrf_token %}
+                {{ form.media }}
+
 				<div class="row">
 					<div class="col-6">
 						{{ form.title|as_crispy_field|safe }}
@@ -24,6 +26,7 @@
 						{{ form.slug|as_crispy_field|safe }}
 					</div>
 					<div class="col-12">
+    {{ form.media }}
 
 						{{ form.description|as_crispy_field|safe }}
 					</div>
@@ -76,7 +79,7 @@
 											<option value="i">ارسال برای ادمین</option>
                                             <option value="">منتشرشده</option>
 
-									
+
                                         </select>
 								</div>
 						 </div>
@@ -87,7 +90,7 @@
 				</div>
 				</div>
 				<button class="btn btn-success">ارسال مقاله</button>
-				
+
 			</form>
 		</div>
 </div>

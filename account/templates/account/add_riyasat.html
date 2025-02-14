@@ -1,0 +1,64 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+
+
+{% block title %}اضافه کردن عضو هیئت مدیره{% endblock %}
+
+{% block main %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">فرم عضو هیئت مدیره</h3>
+          </div>
+          <div class="card-body">
+  <form method="post">
+        {% csrf_token %}
+
+        <!-- جعبه جستجو -->
+        <div style="margin-bottom: 15px;">
+            <input type="text" id="searchInput" placeholder="جستجوی وکیل..." style="width: 300px; padding: 5px;">
+        </div>
+
+        <!-- فیلد انتخاب وکیل -->
+        <div>
+            <label for="id_vakil">وکیل:</label>
+            {{ form.vakil }} <!-- اینجا سلکت با id="id_vakil" ایجاد می‌شود -->
+        </div>
+
+        <!-- فیلد نقش -->
+        <div>
+            <label for="id_role">نقش:</label>
+            {{ form.role }}
+        </div>
+
+        <button type="submit" style="margin-top: 15px;" class="btn btn-outline-success">ذخیره</button>
+    </form>        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- اسکریپت جستجو با سازگاری بهتر -->
+<script>
+document.getElementById('searchInput').addEventListener('input', function() {
+    const searchValue = this.value.toLowerCase();
+    const selectElement = document.getElementById('id_vakil'); // مطمئن شوید آی‌دی درست است
+    const options = selectElement.options;
+
+    for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].text.toLowerCase();
+        if (optionText.includes(searchValue)) {
+            options[i].style.display = 'block';
+        } else {
+            options[i].style.display = 'none';
+        }
+    }
+});
+</script>{% endblock %}

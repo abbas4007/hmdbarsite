@@ -2,39 +2,36 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4 text-primary">{{ comisions.name }}</h1>
+    <h1 class="mb-4 text-primary " style="direction: rtl" >{{ comisions.name }}</h1>
 
     <div class="row mb-5">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">اعضای کمیسیون</h3>
+                <div class="card-header bg-primary text-primary" >
+                    <h3 class="mb-0" >اعضای کمیسیون</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         {% for vakil in comisions.vakils.all %}
                         <div class="col-md-6 mb-3">
-                            <div class="card {% if comisions.raees %}border-success{% else %}border-info{% endif %}">
+                            <div class="card {% if comisions.chairman %}border-success{% else %}border-info{% endif %}">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
-                                        <!-- عکس وکیل -->
                                         <div class="flex-shrink-0">
                                             <img
                                                 src="{{ vakil.thumbnail.url }}"
                                                 alt="{{ vakil.name }} {{ vakil.lastname }}"
                                                 class="img-fluid rounded-circle"
-                                                style="width: 100px; height: 100px; object-fit: cover; border: 3px solid {% if comisions.raees and forloop.first %}#28a745{% else %}#17a2b8{% endif %}"
+                                                style="width: 100px; height: 100px; object-fit: cover; border: 3px solid {% if comisions.chairman and forloop.first %}#28a745{% else %}#17a2b8{% endif %}"
                                             >
                                         </div>
-                                        <!-- اطلاعات وکیل -->
                                         <div class="flex-grow-1 ms-3">
                                             <h5 class="card-title mb-2">
                                                 {{ vakil.name }} {{ vakil.lastname }}
-                                                {% if comisions.raees and forloop.first %}
+                                                {% if comisions.chairman and forloop.first %}
                                                 <span class="badge bg-success">رئیس</span>
                                                 {% endif %}
                                             </h5>
-
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +43,6 @@
             </div>
         </div>
 
-        <!-- سایدبار اطلاعات کلی (بدون تغییر) -->
         <div class="col-md-4">
             <div class="card shadow">
                 <div class="card-header bg-info text-white">
@@ -55,15 +51,24 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-    تعداد اعضا
-    <span class="badge bg-danger rounded-pill">{{ comisions.vakils.count }}</span>
-</li>
+                            تعداد اعضا
+                            <span class="badge bg-danger rounded-pill">{{ comisions.vakils.count }}</span>
+                        </li>
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            وضعیت
-                            <span class="badge {% if comisions.raees %}bg-success{% else %}bg-warning{% endif %}">
-                                {% if comisions.raees %}فعال{% else %}غیرفعال{% endif %}
-                            </span>
+                        <li class="list-group-item">
+                            <div class="commission-description">
+                                <h6 class="text-info mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    توضیحات کمیسیون
+                                </h6>
+                                <div class="description-content">
+                                    {% if comisions.description %}
+                                        {{ comisions.description|linebreaks }}
+                                    {% else %}
+                                        <p class="text-muted fst-italic">هیچ توضیحی ثبت نشده است</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -71,4 +76,29 @@
         </div>
     </div>
 </div>
+
+<style>
+    .commission-description {
+        border-left: 3px solid #17a2b8;
+        padding-left: 1rem;
+    }
+
+    .description-content {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-align: justify;
+    }
+
+    .fst-italic {
+        font-style: italic !important;
+    }
+
+    .card-title {
+        font-weight: 600;
+    }
+
+    .rounded-circle {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+</style>
 {% endblock %}
