@@ -122,7 +122,7 @@ class Contact(View):
     form_class = AdminContactForm
 
     def get(self,request):
-        return render(request,'home/contact2.html',{'form':self.form_class})
+        return render(request, 'home/../../account/templates/account/contact2.html', {'form':self.form_class})
 
     def post(self, request, *args, **kwargs) :
         form = self.form_class(request.POST)
