@@ -1,5 +1,5 @@
 {% extends 'account/base.html' %}
-
+{% load static %}
 {% block title %}{% block title-meta %}
 لیست وکلا
 {% endblock %}{% endblock %}
@@ -59,9 +59,14 @@
                             <td>{{a.jpublish}}</td>
                             <td>{{a.address|truncatechars:20}}</td>
                             <td>
-                                <img src="{{a.thumbnail.url}}" class="img-thumbnail" width="120" alt="عکس وکیل">
-                                <form method="POST" enctype="multipart/form-data" class="mt-2">
-                                    {% csrf_token %}
+                              <img src="{% if a.thumbnail %}{{ a.thumbnail.url }}{% else %}
+{% static 'default_avatar.png' %}
+{% endif %}"
+     class="img-thumbnail"
+     width="120"
+     alt="عکس وکیل">
+
+                                {% csrf_token %}
                                     {{ form.as_p }}
                                     <button type="submit" class="btn btn-sm btn-secondary " style="width: 120px;">
                                         <a href="{% url 'account:image_upload' a.id %}" class="text-white">تغییر عکس</a>

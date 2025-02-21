@@ -205,12 +205,11 @@ class ArticleDelete(LoginRequiredMixin, DeleteView) :  # اضافه کردن Log
     template_name = "account/article_confirm_delete.html"
 
 
-class AddVakil(LoginRequiredMixin, CreateView) :  # اضافه کردن LoginRequiredMixin
+class AddVakil(LoginRequiredMixin, CreateView):
     model = Vakil
-    fields = '__all__'
+    fields = ['name', 'lastname', 'gender', 'code', 'thumbnail', 'address', 'date', 'city']
     template_name = "account/vakil-create-update.html"
     success_url = reverse_lazy('account:home')
-
 
 class vakileList(LoginRequiredMixin, ListView) :
     template_name = "account/vakil_list.html"

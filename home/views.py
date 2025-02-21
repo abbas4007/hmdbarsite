@@ -1,4 +1,6 @@
 from django.contrib import admin, messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
@@ -65,8 +67,14 @@ def parse_date(date_str) :
                 return None
 
 
-def upload_excel(request) :
-    if request.method == 'POST' :
+class UploadExcelView(LoginRequiredMixin, View) :
+    login_url = '/accounts/login/'  # آدرس صفحه لاگین
+    template_name = 'home/upload_excel.html'  # نام تمپلیت
+
+    def get(self, request) :
+        return render(request, self.template_name)
+
+    def post(self, request) :
         try :
             # دریافت فایل اکسل
             excel_file = request.FILES['excel_file']
@@ -129,6 +137,9 @@ def upload_excel(request) :
                         )
                         success_count += 1
 
+                        # فراخوانی متد save برای تنظیم city_slug
+                        vakil.save()
+
                     except IntegrityError as e :
                         errors.append(f'ردیف {index + 2}: شماره پروانه تکراری - {row["شماره_پروانه"]}')
                     except Exception as e :
@@ -144,8 +155,6 @@ def upload_excel(request) :
             messages.error(request, f'خطا در پردازش فایل: {str(e)}')
 
         return redirect('home:upload_excel')
-
-    return render(request, 'home/upload_excel.html')
 
 class VokalaView(View):
     form_class = VakilSearchForm
@@ -193,15 +202,14 @@ class VakilPage(View):
         vakil = Vakil.objects.get(id=id)
         return render(request,'home/vakilpage.html',{'vakil':vakil})
 
-class VakilCity(View):
-    # paginate_by = 2
-    def get(self,request,city):
-        vakils = Vakil.objects.filter(city=city)
-        paginator = Paginator(vakils, 5)
+
+class VakilCity(View) :
+    def get(self, request, city) :
+        vakils = Vakil.objects.filter(city_slug = city)
+        paginator = Paginator(vakils, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request,'home/vakil_detail.html',{'vakils':vakils,'page_obj': page_obj})
-
+        return render(request, 'home/vakil_detail.html', {'vakils' : vakils, 'page_obj' : page_obj})
 
 
 class ComisionView(View):

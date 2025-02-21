@@ -127,7 +127,12 @@
         <div class="row justify-content-center">
             <!-- تصویر وکیل -->
             <div class="col-md-4 col-lg-4 text-center">
-                <img src="{{vakil.thumbnail.url}}" class="img-fluid border-radius" alt="تصویر وکیل">
+ <img src="{% if vakil.thumbnail %}{{ vakil.thumbnail.url }}{% else %}
+{% static 'default_avatar.png' %}
+{% endif %}"
+     class="img-thumbnail"
+     width="120"
+     alt="عکس وکیل">
             </div>
             <!-- اطلاعات وکیل -->
             <div class="col-lg-8">

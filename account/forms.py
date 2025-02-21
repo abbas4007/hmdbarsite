@@ -92,3 +92,8 @@ class RaeesForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['vakil'].queryset = Vakil.objects.all()
 
+class VakilForm(forms.ModelForm):
+    class Meta:
+        model = Vakil
+        fields = '__all__'
+        exclude = ['city_slug']

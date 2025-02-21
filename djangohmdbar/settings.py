@@ -13,8 +13,6 @@ import os
 from pathlib import Path
 
 
-from templatetags import file_size
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +26,7 @@ SECRET_KEY = 'django-insecure-h$yyzdts$c&f*uz3@0!vpf(4=yc4b*8tc#4v32tahbypb1e!oj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,7 +88,7 @@ WSGI_APPLICATION = 'djangohmdbar.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -102,13 +100,19 @@ DATABASES = {
     }
 }
 
+# DATABASES ={"default": dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.environ.get('DATABASE_URL'),
+#         engine="django.db.backends.postgresql"
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -181,9 +185,3 @@ TINYMCE_DEFAULT_CONFIG = {
 GHASEDAK_API_KEY = 'vuyDb4/n8/XM44gZHDzGzHMyF8CKqnSGgftvGqUWZUo'
 SMS_LINE_NUMBER = '100022029'
 
-#
-# POSTGRESQL_DB_HOST=bromo.liara.cloud
-# POSTGRESQL_DB_PORT=30334
-# POSTGRESQL_DB_USER='root'
-# POSTGRESQL_DB_PASS='YY773ElmNtBrv4xrJOdeBY47'
-# POSTGRESQL_DB_NAME='postgres'

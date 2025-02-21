@@ -204,7 +204,13 @@ class Vakil(models.Model):
         ('همدان', 'همدان'),
         ('کبودراهنگ', 'کبودراهنگ'),
         ('ملایر', 'ملایر'),
-        # ... بقیه شهرها
+        ('اسدآباد', 'اسدآباد'),  # اضافه کنید
+        ('نهاوند', 'نهاوند'),  # اضافه کنید
+        ('تویسرکان', 'تویسرکان'),  # اضافه کنید
+        ('رزن', 'رزن'),  # اضافه کنید
+        ('درگزین', 'درگزین'),  # اضافه کنید
+        ('بهار', 'بهار'),  # اضافه کنید
+        ('فامنین', 'فامنین'),  # اضافه کنید
     )
     CITY_MAPPING = {
         'همدان' : 'hamedan',
@@ -236,9 +242,10 @@ class Vakil(models.Model):
     city_slug = models.SlugField(max_length = 150, blank = True, verbose_name = "اسلاگ شهر")
 
     def save(self, *args, **kwargs) :
-        if self.city and not self.city_slug :
+        if self.city :
             self.city_slug = self.CITY_MAPPING.get(self.city, slugify(self.city))
         super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} {self.lastname}"
 

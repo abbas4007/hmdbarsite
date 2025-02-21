@@ -202,7 +202,7 @@ button {
                     </div>
                     <h4>اتوماسیون</h4>
                     <p class="mb-4">با استفاده از سیستم‌های اتوماسیون، فرآیندهای خود را بهینه‌سازی کنید.</p>
-                    <a class="btn btn-primary rounded-pill py-2 px-4" href="https://automation.hamedanbar.ir/login.aspx">اطلاعات بیشتر</a>
+                    <a class="btn btn-primary rounded-pill py-2 px-4" href="http://2.185.143.53/login.aspx">اطلاعات بیشتر</a>
                 </div>
             </div>
 
@@ -266,7 +266,7 @@ button {
                             </a>
                         </p>
                         <p class="h6 mb-4" style=" font-family: Sahel;">{{ i.description|safe|truncatewords:25 }}</p>
-                        <a class="btn btn-primary rounded-pill py-2 px-4" href="#" style="font-family: Sahel;"> ادامه مطلب</a>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="{% url 'home:detail' i.slug %}" style="font-family: Sahel;"> ادامه مطلب</a>
                     </div>
                 </div>
             </div>
@@ -313,9 +313,7 @@ button {
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                    <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">اپلیکیشن کانون وکلا</h1>
-{#                    <h1 class="display-5 mb-4">Benefits We offer</h1>#}
-{#                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.#}
-{#                    </p>#}
+
                 </div>
                 <div class="row g-5 align-items-center">
                     <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.2s">
@@ -341,7 +339,7 @@ button {
                             <div id="collapseOne" class="tab-pane fade show p-0 active">
                                 <div class="row g-4">
                                     <div class="col-md-7">
-                                        <img src="{% static 'app.png' %}" class="img-fluid w-100 rounded" alt="">
+                                        <img src="{% static 'mobil.png' %}" class="img-fluid w-100 rounded" alt="">
                                     </div>
                                     <div class="col-md-5">
                                         <h1 class="display-5 mb-4" style="font-family: Sahel;">مشاهده فهرست بروز وکلای هر استان</h1>
@@ -444,67 +442,79 @@ button {
 
 
         <!-- FAQs Start -->
-        <div class="container-fluid faq-section pb-5">
-            <div class="container pb-5 overflow-hidden">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;"> سوالات متدوال </h1>
-
-                </div>
-                <div class="row g-5 align-items-center">
-                    <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="accordion accordion-flush bg-light rounded p-5" id="accordionFlushSection">
-                            <div class="accordion-item rounded-top">
-                                <h2 class="accordion-header" id="flush-headingOne">
-                                    <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    نحوه گرفتن وکیل تسخیری
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushSection">
-                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                                </div>
+<div class="container-fluid faq-section pb-5">
+    <div class="container pb-5 overflow-hidden">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;"> سوالات متدوال </h1>
+        </div>
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                <div class="accordion accordion-flush bg-light rounded p-5" id="accordionFlushSection">
+                    <!-- آیتم اول -->
+                    <div class="accordion-item rounded-top">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                نحوه گرفتن وکیل تسخیری
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushSection">
+                            <div class="accordion-body">
+                                محتوای مربوط به نحوه گرفتن وکیل تسخیری.
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingTwo">
-                                    <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    نحوه گرفتن وکیل تسخیری
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushSection">
-                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingThree">
-                                     <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    نحوه گرفتن وکیل تسخیری
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushSection">
-                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingFour">
-                                     <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    نحوه گرفتن وکیل تسخیری
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushSection">
-                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                    <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                        <div class="bg-primary rounded">
-                            <img src="https://django-shop-center.s3.ir-thr-at1.arvanstorage.ir/IMG_0010.JPG?versionId=" class="img-fluid w-100" alt="">
+
+                    <!-- آیتم دوم -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                نحوه ثبت شکایات مردمی
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushSection">
+                            <div class="accordion-body">
+                                محتوای مربوط به نحوه ثبت شکایات مردمی.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم سوم -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                            <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                نحوه گرفتن وکیل تسخیری
+                            </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushSection">
+                            <div class="accordion-body">
+                                محتوای مربوط به نحوه گرفتن وکیل تسخیری.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم چهارم -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingFour">
+                            <button style="font-family: Sahel;" class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                نحوه گرفتن وکیل تسخیری
+                            </button>
+                        </h2>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushSection">
+                            <div class="accordion-body">
+                                محتوای مربوط به نحوه گرفتن وکیل تسخیری.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
+                <div class="bg-primary rounded">
+                    <img src="https://django-shop-center.s3.ir-thr-at1.arvanstorage.ir/IMG_0010.JPG?versionId=" class="img-fluid w-100" alt="">
+                </div>
+            </div>
         </div>
-        <!-- FAQs End -->
+    </div>
+</div>        <!-- FAQs End -->
 
 
         <!-- Team Start -->
@@ -580,5 +590,6 @@ button {
             </div>
         </div>
 
-
+</div>
+</div>
 {% endblock %}
