@@ -19,7 +19,6 @@ urlpatterns = [
 	path('article/<slug:slug>', ArticleDetail.as_view(), name="detail"),
 	path('vokala/', VokalaView.as_view(), name="vokala"),
 	path('city/<str:city>', VakilCity.as_view(), name="vokala_city"),
-
 	path('preview/<int:pk>', ArticlePreview.as_view(), name="preview"),
 	path('vakil/<int:id>', VakilPage.as_view(), name="vakil"),
 	path('category/<slug:slug>', CategoryList.as_view(), name="category"),
