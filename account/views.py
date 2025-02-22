@@ -137,17 +137,34 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView) :
             try :
                 api_key = settings.GHASEDAK_API_KEY
                 url = "https://api.ghasedak.me/v2/sms/send/simple"
+
                 payload = {
                     "message" : f"پاسخ به پیام شما:\n{form.cleaned_data['response']}",
                     "receptor" : self.object.phone,
                     "linenumber" : settings.SMS_LINE_NUMBER
                 }
-                headers = {"apikey" : api_key}
-                requests.post(url, data = payload, headers = headers)
+
+                headers = {
+                    "apikey" : 'vuyDb4/n8/XM44gZHDzGzHMyF8CKqnSGgftvGqUWZUo',
+                    "Content-Type" : "application/x-www-form-urlencoded"
+                }
+
+                # ارسال درخواست و دریافت پاسخ
+                api_response = requests.post(url, data = payload, headers = headers)
+
+                # تبدیل پاسخ به دیکشنری
+                response_data = api_response.json()
+
+                # بررسی وضعیت پاسخ
+                if api_response.status_code != 200 :
+                    print(f"خطا در ارسال: {response_data}")
+                else :
+                    print("پیامک با موفقیت ارسال شد!")
+
             except Exception as e :
                 print(f"خطا در ارسال پاسخ: {str(e)}")
-        return response
 
+        return response
 
 class CustomLoginView(LoginView):
     template_name = 'account/login.html'
