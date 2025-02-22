@@ -1,0 +1,7 @@
+[
+{
+    "model": "home.article",
+    "pk": 1,
+    "fields": {
+        "author": null,
+        "title": 
