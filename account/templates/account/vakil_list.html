@@ -14,6 +14,8 @@
             </div>
             <div class="card-body">
                 <form method="get" action="{% url 'account:vakil_list' %}">
+                        {% csrf_token %}
+
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="جستجو بر اساس نام، نام خانوادگی، شهر یا آدرس..." value="{{ request.GET.search }}">
                         <div class="input-group-append">
@@ -54,12 +56,12 @@
                                     <p class="mb-0">{{a.name}}</p>
                                 </a>
                             </td>
-                            <td>{{a.lastname}}</td>
-                            <td>{{a.gender}}</td>
-                            <td>{{a.jpublish}}</td>
-                            <td>{{a.address|truncatechars:20}}</td>
+                            <td>{{a.lastname|escape}}</td>
+                            <td>{{a.gender|escape}}</td>
+                            <td>{{a.jpublish|escape}}</td>
+                            <td>{{a.address|escape|truncatechars:20}}</td>
                             <td>
-                              <img src="{% if a.thumbnail %}{{ a.thumbnail.url }}{% else %}
+                              <img src="{% if a.thumbnail %}{{ a.thumbnail.url|escape }}{% else %}
 {% static 'default_avatar.png' %}
 {% endif %}"
      class="img-thumbnail"
@@ -73,7 +75,7 @@
                                     </button>
                                 </form>
                             </td>
-                            <td>{{a.city}}</td>
+                            <td>{{a.city|escape}}</td>
                             <td>
                                 <a href="{% url 'account:vakil_edit' a.pk %}"
                                    class="btn btn-sm btn-info mb-1">

@@ -25,7 +25,7 @@ class VakilAdmin(ImportExportModelAdmin, admin.ModelAdmin) :
     list_display = ('name', 'lastname', 'address', 'thumbnail_tag', 'jpublish', 'gender', 'code',)
     list_filter = ('code', 'name', 'lastname')
     search_fields = ('name', 'code')
-    ordering = ['code', '-date']
+    ordering = ['code', '-year']
     # change_form_template ="change_list.html"
     actions = ['update_image']
 

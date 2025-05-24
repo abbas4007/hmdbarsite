@@ -1,75 +1,57 @@
 {% extends 'account/base.html' %}
 
-{% block title %}{% block title-meta %}
-	لیست وکلا
-{% endblock %}{% endblock %}
+{% block title %}
+  {% block title-meta %}
+    لیست وکلا
+  {% endblock %}
+{% endblock %}
 
 {% block main %}
-		<div class="row">
-          <div class="col-12">
-              <div class="card">
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th> نام وکیل</th>
-                        <th>نام خانوادگی</th>
-                        <th>جنسیت</th>
-                        <th>تاریخ انقضا</th>
-                        <th>آدرس</th>
-                        <th> عکس</th>
-                        <th> شهر</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for a in object_list %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>نام وکیل</th>
+              <th>نام خانوادگی</th>
+              <th>جنسیت</th>
+              <th>تاریخ انقضا</th>
+              <th>آدرس</th>
+              <th>عکس</th>
+              <th>شهر</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in object_list %}
+            <tr>
+              <td>
+                <a href="{% url 'account:vakil_add' %}">
+                  {{ a.name }}
+                </a>
+              </td>
+              <td>{{ a.lastname }}</td>
+              <td>{{ a.gender }}</td>
+              <td>{{ a.jpublish }}</td>
+              <td>{{ a.address }}</td>
+              <td>
+                <img src="{{ a.thumbnail.url }}" width="120" class="img-thumbnail mb-2">
 
-                        <tr>
-
-                          <td>
-                                                                                <a href="{% url 'account:vakil_add'  %}">
-                                                                                  <p >{{a.name}}</p></a>
-                           
-                          </td></a>
-                                                    <td>{{a.lastname}}</td>
-                                                    <td>{{a.gender}}</td>
-                          <td>{{a.jpublish}}</td>
-                          <td>{{a.address}}</td>
-
-                          <td>
-                              <img src="{{a.thumbnail.url}}" width="120">
-<!--                            <div class="fileuploader_1280">-->
-<!--                              <a class="btn btn-primary btn-sm btn-change-avatar" style="position: relative; overflow: hidden; cursor: default;" href=" url 'account:home'"><i class="fa fa-upload"></i>-->
-<!--                                  <input type="file" id="ajax-upload-id-1726861225841" name="image" accept="image/*" style="position: absolute; cursor: pointer; top: 0px; width: 100%; height: 100%; left: 0px; z-index: 100; opacity: 0;">-->
-<!--                              </a>-->
-
-                              <form method="POST" enctype="multipart/form-data">
-       {% csrf_token %}
-       {{ form.as_p }}
-                                  <button type="submit"><a href="{% url 'account:image_upload' a.id %}">Update Image</a></button>
-    </form>
-
-<!--                              <div>-->
-
-                              </div>
-                            </div>
-                            <div class="ajax-file-upload-container"></div>
-                            </td>
-                          </td>
-                          <td>{{a.city}}</td>
-
-                          
-                        </tr>
-
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-            
-          </div>
-        </div>
+                <!-- فرم آپلود عکس جداگانه برای هر وکیل -->
+                <form method="POST" enctype="multipart/form-data" action="{% url 'account:image_upload' a.id %}">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-sm btn-primary">آپلود تصویر جدید</button>
+                </form>
+              </td>
+              <td>{{ a.city }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load url from future %}
 
 {% block content %}
 <head>
+    <meta http-equiv="X-Frame-Options" content="DENY">  <!-- جلوگیری از Clickjacking -->
+
     <style>
-        /* استایل‌های پایه برای هر بخش */
         .feature-item {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease; /* افزودن transition برای انیمیشن */
+            transition: all 0.3s ease;
         }
 
-        /* انیمیشن هنگام hover */
         .feature-item.hover-lift:hover {
-            transform: translateY(-10px); /* حرکت به بالا */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* افزایش سایه */
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        /* استایل‌های اضافی برای جستجو */
         .search-form .input-group {
             border-radius: 25px;
             overflow: hidden;
@@ -43,14 +43,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <form method="GET" action="{% url 'home:search_articles' %}" class="search-form">
+                {% csrf_token %}
                 <div class="input-group">
-                    <input 
-                        type="text" 
-                        name="q" 
-                        class="form-control" 
-                        placeholder="جستجو در اخبار..." 
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="جستجو در اخبار..."
                         aria-label="Search"
-                        value="{{ request.GET.q }}"
+                        value="{{ request.GET.q|default:''|escape }}"
                     >
                     <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search"></i>
@@ -67,24 +68,28 @@
     <div class="container pb-5">
         <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
             <h1 class="display-5 mb-4 text-primary" style="font-family: Sahel;">
-                {% if query %}نتایج جستجو برای "{{ query }}"{% else %}اخبار{% endif %}
+                {% if query %}نتایج جستجو برای "{{ query|escape }}"{% else %}اخبار{% endif %}
             </h1>
         </div>
 
         <div class="row g-4">
             {% for i in page_obj %}
             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-                <div class="service-item">
+                <div class="service-item feature-item hover-lift">
                     <div class="service-img">
-                        <img src="{{ i.thumbnail.url }}" class="img-fluid">
+                        {% if i.thumbnail %}
+                            <img src="{{ i.thumbnail.url }}" class="img-fluid" alt="{{ i.title|escape }}">
+                        {% else %}
+                            <img src="{% static 'images/default-thumb.jpg' %}" class="img-fluid" alt="تصویر پیش‌فرض">
+                        {% endif %}
                     </div>
                     <div class="rounded-bottom p-4">
                         <p>
                             <a href="{% url 'home:detail' i.slug %}" class="h4 d-inline-block mb-4" style="font-family: Sahel;">
-                                <strong>{{ i.title }}</strong>
+                                <strong>{{ i.title|escape }}</strong>
                             </a>
                         </p>
-                        <p class="h6 mb-4" style="font-family: Sahel;">{{ i.description|safe|truncatewords:25 }}</p>
+                        <p class="h6 mb-4" style="font-family: Sahel;">{{ i.description|striptags|truncatewords:25 }}</p>
                         <a class="btn btn-primary rounded-pill py-2 px-4" href="{% url 'home:detail' i.slug %}" style="font-family: Sahel;"> ادامه مطلب</a>
                     </div>
                 </div>
@@ -100,33 +105,21 @@
         <nav aria-label="Page navigation example" class="mt-5" style="color: #0a58ca !important;">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
-                <li class="page-item" style="font-family: Sahel;">
-                    <a class="page-link" href="?page=1&q={{ request.GET.q }}" style="font-family: Sahel;">اولین</a>
-                </li>
-                <li class="page-item" style="background-color: #0a58ca !important;">
-                    <a class="page-link" style="font-family: Sahel;" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}">قبلی</a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page=1&q={{ request.GET.q|urlencode }}">اولین</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q|urlencode }}">قبلی</a></li>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
-                        <li class="page-item active" style="background-color: #0a58ca !important;">
-                            <span class="page-link" style="background-color: #0a58ca !important;">{{ num }}</span>
-                        </li>
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                     {% else %}
-                        <li class="page-item" style="background-color: #0a58ca !important;">
-                            <a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}">{{ num }}</a>
-                        </li>
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q|urlencode }}">{{ num }}</a></li>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
-                <li class="page-item" style="background-color: #0a58ca !important;">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" style="font-family: Sahel;">بعدی</a>
-                </li>
-                <li class="page-item" style="background-color: #0a58ca !important;">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{ request.GET.q }}" style="background-color: #0a58ca !important;font-family: Sahel;">آخرین</a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q|urlencode }}">بعدی</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{ request.GET.q|urlencode }}">آخرین</a></li>
                 {% endif %}
             </ul>
         </nav>

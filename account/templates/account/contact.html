@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تماس با ریاست</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9ndCyUa6mY2c1y9+3qDgZt9V7kbiH6ZFtPH0N9ZdvSdCge3v5WeD+XHBOH5XjDA6"
+          crossorigin="anonymous">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-6xU0v1uRz8Xt0NjqxODABKdcI3dBu8KkP9DkOePrmfY3Mf1nEypqBWz1Uu6K+mH71e9Hw+5Hxkz5U1wXadfsZg=="
+          crossorigin="anonymous" />
+
     <style>
         body {
             font-family: 'Vazir', sans-serif;
@@ -61,72 +70,106 @@
             padding: 20px 0;
             margin-top: 50px;
         }
+        .captcha img {
+            height: 40px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- هدر -->
-    <div class="header">
-        <div class="container">
-            <h1>تماس با ریاست کانون وکلای دادگستری استان همدان</h1>
-            <p>نظرات، پیشنهادات و انتقادات خود را با ما در میان بگذارید.</p>
-        </div>
-    </div>
-
-    <!-- فرم تماس -->
+<!-- هدر -->
+<div class="header">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="contact-form">
-                    <form method="post">
-                        {% csrf_token %}
+        <h1>تماس با ریاست کانون وکلای دادگستری استان همدان</h1>
+        <p>نظرات، پیشنهادات و انتقادات خود را با ما در میان بگذارید.</p>
+    </div>
+</div>
 
-                        <!-- نام -->
-                        <div class="mb-3">
-                            <label class="form-label">نام کامل</label>
-                            <input type="text" class="form-control" name="full_name" required>
-                        </div>
+<!-- فرم تماس -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="contact-form">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.name == 'captcha' %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div class="d-flex align-items-center gap-3 captcha">
+                                    {{ field }}
 
-                        <!-- ایمیل -->
-                        <div class="mb-3">
-                            <label class="form-label">ایمیل</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
+                                </div>
+{#                                {% if field.errors %}#}
+{#                                    <div class="text-danger">{{ field.errors.as_text }}</div>#}
+{#                                {% endif %}#}
+                            </div>
+                        {% else %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
 
-                        <!-- شماره تماس -->
-                        <div class="mb-3">
-                            <label class="form-label">شماره تماس</label>
-                            <input type="tel" class="form-control" name="phone" required>
-                        </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
 
-                        <!-- موضوع -->
-                        <div class="mb-3">
-                            <label class="form-label">موضوع</label>
-                            <input type="text" class="form-control" name="subject" required>
-                        </div>
-
-                        <!-- پیام -->
-                        <div class="mb-3">
-                            <label class="form-label">پیام</label>
-                            <textarea class="form-control" name="message" rows="5" required></textarea>
-                        </div>
-
-                        <!-- دکمه ارسال -->
-                        <button type="submit" class="btn btn-primary w-100">ارسال پیام</button>
-                    </form>
-                </div>
+                    <button type="submit" class="btn btn-primary w-100">ارسال پیام</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- فوتر -->
-    <div class="footer">
-        <div class="container">
-            <p>تمامی حقوق محفوظ است &copy; 1403</p>
-        </div>
+<!-- فوتر -->
+<div class="footer">
+    <div class="container">
+        <p>تمامی حقوق محفوظ است &copy; 1403</p>
     </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<!-- JS برای رفرش دستی و خودکار کپچا -->
+<script>
+    function refreshCaptcha() {
+    const img = document.querySelector(".captcha img");
+    const hiddenInput = document.querySelector("input[name='captcha_0']");
+
+    fetch("/captcha/refresh/")
+        .then(response => response.json())
+        .then(data => {
+            img.src = data.image_url + '?t=' + new Date().getTime(); // جلوگیری از کش
+            hiddenInput.value = data.key;
+        })
+        .catch(error => {
+            console.error("خطا در بارگذاری کپچای جدید:", error);
+        });
+}
+</script>
+
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const refreshButton = document.getElementById('refresh-captcha');
+    const captchaImg = document.querySelector('.captcha img');
+    const captchaKeyInput = document.querySelector('input[name="captcha_0"]');
+
+    refreshButton.addEventListener('click', function () {
+        fetch('/captcha/refresh/')
+            .then(response => response.json())
+            .then(data => {
+                // بروزرسانی تصویر و کلید مخفی
+                captchaImg.src = data.image_url + '?t=' + new Date().getTime();
+                captchaKeyInput.value = data.key;
+            })
+            .catch(error => {
+                console.error('خطا در رفرش کپچا:', error);
+            });
+    });
+});
+</script>
+
 </html>

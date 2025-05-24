@@ -1,17 +1,25 @@
 # forms.py
+from botocore.exceptions import ValidationError
 from django import forms
-from home.models import Vakil, ArticleFile, Comision, Article, Riyasat
+from django.forms import modelformset_factory
+from jalali_date.widgets import AdminJalaliDateWidget
+from home.models import Vakil, ArticleFile, Comision, Article, Riyasat, ArticleImage
 from tinymce.widgets import TinyMCE
 from django import forms
 from .models import ContactMessage
 from captcha.fields import CaptchaField
 
+
+
+
 class ContactForm(forms.ModelForm):
-    class Meta:
+    captcha = CaptchaField(label = "کد امنیتی")
+
+    class Meta :
         model = ContactMessage
-        fields = ['full_name', 'email', 'phone', 'subject', 'message']
+        fields = ['full_name', 'phone', 'subject', 'message', 'captcha']
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 5}),
+            'message' : forms.Textarea(attrs = {'rows' : 5}),
         }
 
 class ImageForm(forms.ModelForm):
@@ -36,34 +44,44 @@ class ArticleFileForm(forms.ModelForm):
         fields = ['file']
 
 
-class ArticleForm(forms.ModelForm):
-    class Meta:
+class ArticleImageForm(forms.ModelForm) :
+
+    class Meta :
+        model = ArticleImage
+        fields = ['image']
+
+
+# class MultipleFileInput(forms.ClearableFileInput) :
+#     allow_multiple_selected = True  # این خط مهم است
+
+
+# class MultipleFileField(forms.FileField) :
+#     def __init__(self, *args, **kwargs) :
+#         kwargs.setdefault("widget", MultipleFileInput())
+#         super().__init__(*args, **kwargs)
+#
+#     def clean(self, data, initial=None) :
+#         if data is not None :
+#             if not isinstance(data, (list, tuple)) :
+#                 data = [data]
+#         else :
+#             data = []
+#         return super().clean(data, initial)
+
+
+class ArticleForm(forms.ModelForm) :
+    class Meta :
         model = Article
         fields = '__all__'
         widgets = {
-            'description': TinyMCE(),
+            'date' : AdminJalaliDateWidget(attrs = {'class' : 'form-control'}),
         }
 
-# class ComisionForm(forms.ModelForm):
-#     class Meta:
-#         model = Comision
-#         fields = '__all__'
-#         widgets = {
-#             'vakils': forms.SelectMultiple(attrs={'class': 'raw-id-field'}),
-#             'raees': forms.Select(attrs={'class': 'raw-id-field'}),
-#         }
-#
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         raees = cleaned_data.get('raees')
-#         vakils = cleaned_data.get('vakils')
-#
-#         if raees and raees not in vakils:
-#             raise forms.ValidationError("رئیس باید از بین اعضای کمیسیون انتخاب شود!")
-#
-#         return cleaned_data
-
-
+ArticleImageFormSet = modelformset_factory(
+    ArticleImage,
+    form=ArticleImageForm,
+    extra=3
+)
 class ComisionForm(forms.ModelForm):
     class Meta:
         model = Comision

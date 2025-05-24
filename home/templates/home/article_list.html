@@ -34,8 +34,14 @@
                               {{article.title}}
                             {% endif %}
                           </td>
-                          <td><img src="{{article.thumbnail.url}}" width="120"></td>
-                          <td>{{article.category_to_str}}</td>
+<td>
+    {% if article.thumbnail %}
+        <img src="{{ article.thumbnail.url }}" width="120">
+    {% else %}
+        <!-- متن یا تصویر جایگزین در صورت نبودن thumbnail -->
+        <span>بدون تصویر</span>
+    {% endif %}
+</td>                          <td>{{article.category_to_str}}</td>
                           <td>{{article.author.get_full_name}}</td>
                           <td>{{article.description|striptags|truncatewords:"30"}}</td>
                           <td>{{article.jpublish}}</td>
@@ -61,7 +67,7 @@
                               {% else %}
                                 <span class="badge badge-warning">برگشت داده شده</span>
                               {% endif %}
-                              <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">پیشنمایش</a>
+{#                              <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">پیشنمایش</a>#}
                             {% endif %}
                             {% if user.is_superuser %}
                             <a class="badge text-danger" href="{% url 'account:article_delete' article.pk %}">حذف</a>

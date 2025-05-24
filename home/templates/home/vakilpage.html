@@ -4,29 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="پروفایل وکیل {{ vakil.name }} {{ vakil.lastname }} - کانون وکلای دادگستری">
+    <meta name="keywords" content="وکیل, دادگستری, همدان, {{ vakil.name }}, {{ vakil.lastname }}">
 
     <!-- Favicons -->
-    <link href="{% static 'asset/img/logo.png' %}" rel="icon">
+    <link href="{% static 'asset/img/favicon.png' %}" rel="icon">
     <link href="{% static 'asset/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=B+Nazanin:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="{% static 'asset/vendor/aos/aos.css' %}" rel="stylesheet">
-    <link href="{% static 'asset/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/bootstrap/css/bootstrap.rtl.min.css' %}" rel="stylesheet">
     <link href="{% static 'asset/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <link href="{% static 'asset/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'asset/vendor/fontawesome/css/all.min.css' %}" rel="stylesheet">
     <link href="{% static 'asset/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-    <link href="{% static 'asset/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
     <link href="{% static 'asset/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
     <link href="{% static 'asset/css/style.css' %}" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <style>
-        /* بهبود ظاهر کلی */
         body {
             font-family: 'B Nazanin', sans-serif;
             font-size: 16px;
@@ -35,7 +37,6 @@
             background-color: #f9f9f9;
         }
 
-        /* بنر */
         .banner-img {
             width: 100%;
             height: 300px;
@@ -44,7 +45,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* کارت‌ها */
         .ht-box-images.style-07 {
             background: #fff;
             border-radius: 10px;
@@ -63,6 +63,7 @@
             width: 60px;
             height: 60px;
             margin-bottom: 15px;
+            object-fit: contain;
         }
 
         .ht-box-images.style-07 .content h6.heading {
@@ -76,7 +77,6 @@
             color: #6f6f6f;
         }
 
-        /* انیمیشن‌ها */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -94,7 +94,6 @@
         .feature-images__serven .col-xs-6:nth-child(5) { animation-delay: 1s; }
         .feature-images__serven .col-xs-6:nth-child(6) { animation-delay: 1.2s; }
 
-        /* دکمه‌ها */
         .btn-primary {
             background-color: #1268a5;
             border: none;
@@ -107,33 +106,49 @@
             background-color: #105d8d;
         }
 
-        /* بهبود ظاهر تصویر وکیل */
         .border-radius {
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
+        /* بهبودهای امنیتی و دسترسی */
+        .protected-phone {
+            cursor: pointer;
+        }
+
+        .vakil-avatar {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+        }
     </style>
-    <title>صفحه وکیل</title>
+    <title>{{ vakil.name }} {{ vakil.lastname }} | صفحه وکیل</title>
 </head>
 <body>
     {% block content %}
     <!-- بنر -->
     <div class="container-fluid">
-        <img src="{% static 'banner.jpg' %}" class="banner-img" alt="بنر">
+        <img src="{% static 'banner.jpg' %}"
+             class="banner-img"
+             alt="کانون وکلای دادگستری استان همدان"
+             loading="lazy">
     </div>
 
     <!-- بخش اطلاعات وکیل -->
     <div class="container mt-4">
         <div class="row justify-content-center">
             <!-- تصویر وکیل -->
-            <div class="col-md-4 col-lg-4 text-center">
- <img src="{% if vakil.thumbnail %}{{ vakil.thumbnail.url }}{% else %}
-{% static 'default_avatar.png' %}
-{% endif %}"
-     class="img-thumbnail"
-     width="120"
-     alt="عکس وکیل">
-            </div>
+<!-- تصویر وکیل - نسخه اصلاح شده -->
+<div class="col-md-4 col-lg-4 text-center">
+    <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <img src="{% if vakil.thumbnail %}{{ vakil.thumbnail.url }}{% else %}{% static 'default_avatar.png' %}{% endif %}"
+             class="img-fluid border-radius"
+             alt="تصویر {{ vakil.name }} {{ vakil.lastname }}"
+             loading="lazy"
+             onerror="this.src='{% static 'default_avatar.png' %}'"
+             style="max-width: 100%; max-height: 100%; object-fit: cover;">
+    </div>
+</div>
             <!-- اطلاعات وکیل -->
             <div class="col-lg-8">
                 <div class="feature-images-wrapper">
@@ -145,81 +160,120 @@
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'numbers.png' %}" alt="شماره پروانه">
+                                                <img src="{% static 'numbers.png' %}"
+                                                     class="img-fulid"
+                                                     alt="شماره پروانه"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">شماره پروانه</h6>
-                                                <h6 class="text">{{vakil.code}}</h6>
+                                                <h6 class="text">{{vakil.code|default:'-'}}</h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- تلفن همراه -->
                                 <div class="col-xs-6 col-lg-4 col-md-6">
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'phone.png' %}" alt="تلفن همراه">
+                                                <img src="{% static 'phone.png' %}"
+                                                     class="img-fulid"
+                                                     alt="تلفن همراه"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">تلفن همراه</h6>
-                                                <h6 class="text"><a href="tel:09188126343">09188126343</a></h6>
+                                                <h6 class="text protected-phone" data-real="{{ vakil.mobile|default:'09188126343' }}">
+                                                    {{ vakil.mobile|default:'۰۹۱۸-XXX-XXXX' }}
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- تلفن ثابت -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'telephone.png' %}" alt="تلفن ثابت">
+                                                <img src="{% static 'telephone.png' %}"
+                                                     class="img-fulid"
+                                                     alt="تلفن ثابت"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">تلفن ثابت</h6>
-                                                <h6 class="text"><a href="tel:08138261253">08138261253</a></h6>
+                                                <h6 class="text protected-phone" data-real="{{ vakil.phone|default:'08138261253' }}">
+                                                    {{ vakil.phone|default:'۰۸۱۳-XXX-XXXX' }}
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- شهرستان محل اشتغال -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'address.png' %}" alt="شهرستان">
+                                                <img src="{% static 'address.png' %}"
+                                                     class="img-fulid"
+                                                     alt="شهرستان محل اشتغال"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">شهرستان محل اشتغال</h6>
-                                                <h6 class="text">{{vakil.city}}</h6>
+                                                <h6 class="text">{{vakil.city|default:'-'}}</h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- انقضاء پروانه وکالت -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'expire.png' %}" alt="انقضاء پروانه">
+                                                <img src="{% static 'expire.png' %}"
+                                                     class="img-fulid"
+                                                     alt="انقضاء پروانه وکالت"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">انقضاء پروانه وکالت</h6>
-                                                <h6 class="text">1404/08/30</h6>
+                                                <h6 class="text">{{ vakil.license_expiry|default:'1404/08/30' }}</h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- آدرس -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="ht-box-images style-07">
                                         <div class="image-box-wrap">
                                             <div class="box-image">
-                                                <img class="img-fulid" src="{% static 'building.png' %}" alt="آدرس">
+                                                <img src="{% static 'building.png' %}"
+                                                     class="img-fulid"
+                                                     alt="آدرس"
+                                                     loading="lazy"
+                                                     width="60"
+                                                     height="60">
                                             </div>
                                             <div class="content">
                                                 <h6 class="heading">آدرس</h6>
-                                                <h6 class="text">{{vakil.address}}</h6>
+                                                <h6 class="text">{{vakil.address|default:'-'}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -239,5 +293,26 @@
     <script src="{% static 'asset/vendor/glightbox/js/glightbox.min.js' %}"></script>
     <script src="{% static 'asset/vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'asset/js/main.js' %}"></script>
+
+    <!-- اسکریپت‌های اختصاصی -->
+    <script>
+        // محافظت از شماره تلفن
+        document.querySelectorAll('.protected-phone').forEach(function(el) {
+            el.addEventListener('click', function() {
+                if(this.innerHTML.includes('XXX')) {
+                    this.innerHTML = this.getAttribute('data-real');
+                }
+            });
+        });
+
+        // فعال کردن انیمیشن‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+    </script>
 </body>
 </html>

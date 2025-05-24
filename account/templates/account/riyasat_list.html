@@ -18,7 +18,7 @@
                             <th>نام خانوادگی</th>
                             <th>عکس</th>
                             <th>شهر</th>
-                            <th>عملیات</th> <!-- ستون جدید برای دکمه حذف -->
+                            <th>عملیات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,20 +26,25 @@
                         <tr>
                             <td>
                                 <a href="{% url 'account:vakil_add' %}">
-                                    <p>{{ a.vakil.name }}</p>
+                                    <p>{{ a.vakil.name|escape }}</p>
                                 </a>
                             </td>
-                            <td>{{ a.vakil.lastname }}</td>
+                            <td>{{ a.vakil.lastname|escape }}</td>
                             <td>
-                                <img src="{{ a.vakil.thumbnail.url }}" width="120">
+                                <img src="{{ a.vakil.thumbnail.url|escape }}" width="120">
 
                                 <div class="ajax-file-upload-container"></div>
                             </td>
-                            <td>{{ a.city }}</td>
-                            <td>
-                                <!-- دکمه حذف -->
-                                <a href="{% url 'account:riyasat_delete' a.pk %}" class="btn btn-danger btn-sm">حذف</a>
-                            </td>
+                            <td>{{ a.city|escape }}</td>
+                          <td>
+  <form method="post" action="{% url 'account:riyasat_delete' a.pk %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-sm"
+            onclick="return confirm('آیا از حذف این عضو هیات مدیره مطمئن هستید؟')">
+      حذف
+    </button>
+  </form>
+</td>
                         </tr>
                         {% endfor %}
                     </tbody>

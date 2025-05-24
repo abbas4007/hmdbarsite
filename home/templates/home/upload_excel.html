@@ -1,48 +1,120 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آپلود فایل اکسل</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>آپلود فایل اکسل - کانون وکلای دادگستری</title>
+
+    <!-- Bootstrap CSS با SRI -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+
+    <style>
+        .custom-file-input ~ .custom-file-label::after {
+            content: "انتخاب فایل";
+        }
+        .alert ul {
+            margin-bottom: 0;
+            padding-right: 1rem;
+        }
+    </style>
 </head>
-<body dir="rtl">
+<body>
     <div class="container mt-5">
-        <div class="card">
-            <div class="card-header bg-primary text-white text-center">
-                <h2>آپلود فایل اکسل برای افزودن وکیل</h2>
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h2 class="mb-0"><i class="fas fa-file-excel ml-2"></i>آپلود فایل اکسل برای افزودن وکیل</h2>
             </div>
             <div class="card-body">
-                <!-- نمایش پیام‌ها -->
+                <!-- نمایش پیام‌ها با آیکون -->
                 {% if messages %}
-                    <div class="alert alert-info">
-                        <ul>
-                            {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {% if message.tags == 'success' %}
+                            <i class="fas fa-check-circle ml-2"></i>
+                        {% elif message.tags == 'error' %}
+                            <i class="fas fa-exclamation-circle ml-2"></i>
+                        {% endif %}
+                        {{ message }}
                     </div>
+                    {% endfor %}
                 {% endif %}
 
-                <form method="post" enctype="multipart/form-data" action="{% url 'home:upload_excel' %}">
+                <form method="post" enctype="multipart/form-data" action="{% url 'home:upload_excel' %}" class="needs-validation" novalidate>
                     {% csrf_token %}
+
                     <div class="form-group">
-                        <label for="excel_file">انتخاب فایل اکسل</label>
-                        <input type="file" class="form-control-file" id="excel_file" name="excel_file" accept=".xlsx, .xls" required>
+                        <label for="excel_file" class="font-weight-bold">فایل اکسل مورد نظر را انتخاب کنید:</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="excel_file"
+                                   name="excel_file" accept=".xlsx, .xls" required>
+                            <label class="custom-file-label text-right" for="excel_file">فایلی انتخاب نشده است</label>
+                            <div class="invalid-feedback">
+                                لطفاً یک فایل اکسل انتخاب کنید
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block">آپلود و افزودن</button>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-success btn-block py-2">
+                            <i class="fas fa-upload ml-2"></i>آپلود و پردازش فایل
+                        </button>
                     </div>
                 </form>
 
                 <div class="alert alert-warning mt-4" role="alert">
-                    لطفاً فایلی با فرمت .xlsx یا .xls انتخاب کنید.
+                    <i class="fas fa-exclamation-triangle ml-2"></i>
+                    <strong>توجه:</strong> لطفاً فقط فایل‌های با فرمت .xlsx یا .xls آپلود کنید.
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- FontAwesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
+            integrity="sha512-F5QTlBqZlvuBEs9LQPqc1iZv2UMxcVXezbHzomzS6Df4MZMClge/8+gXrKw2fl5ysdk4rWjR0vKS7NNkfymaBQ=="
+            crossorigin="anonymous"></script>
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
+    <!-- اسکریپت‌های اختصاصی -->
+    <script>
+        // نمایش نام فایل انتخاب شده
+        $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+
+        // اعتبارسنجی فرم در سمت کلاینت
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 </body>
 </html>

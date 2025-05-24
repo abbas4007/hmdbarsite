@@ -1,94 +1,205 @@
 {% extends 'account/base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags static %}
 
-    {% csrf_token %}
+{% block title %}
+{% if object %}ویرایش{% else %}افزودن{% endif %} مقاله جدید
+{% endblock %}
 
-{% block title %}{% block title-meta %}
-	افزودن خبر
-{% endblock %}{% endblock %}
+{% block css %}
+<!-- همان استایل‌های قبلی -->
+{% endblock %}
 
 {% block main %}
 <div class="col-md-12">
-	<div class="card card-primary">
-		<div class="card-header">
-			<h3 class="card-title mb-0 float-left">افزودن مقاله</h3>
-		</div>
-		<div class="card-body">
-			<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title mb-0 float-left">
+                {% if object %}ویرایش{% else %}افزودن{% endif %} مقاله جدید
+            </h3>
+        </div>
+        <div class="card-body">
+            <!-- تغییر مهم در اینجا: اضافه کردن enctype -->
+            <form method="post" enctype="multipart/form-data" id="article-form" novalidate>
+                {% csrf_token %}
+
+                {% if messages %}
+                <div class="messages mb-4">
+                    {% for message in messages %}
+                    <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 {{ form.media }}
+                {{ form.non_field_errors }}
 
-				<div class="row">
-					<div class="col-6">
-						{{ form.title|as_crispy_field|safe }}
-					</div>
-					<div class="col-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.title|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.thumbnail|as_crispy_field }}
+                        {% if object and object.thumbnail %}
+                        <div class="mt-2">
+                            <img src="{{ object.thumbnail.url }}" alt="تصویر شاخص فعلی" style="max-height: 150px;" class="img-thumbnail">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.publish|as_crispy_field }}
+                    </div>
 
-						{{ form.slug|as_crispy_field|safe }}
-					</div>
-					<div class="col-12">
-    {{ form.media }}
+                    {% if user.is_superuser %}
+                    <div class="col-md-6">
+                        {{ form.author|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.status|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.category|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.video|as_crispy_field }}
+                        {% if object and object.video %}
+                        <div class="mt-2">
+                            <a href="{{ object.video.url }}" target="_blank" class="btn btn-sm btn-info">
+                                <i class="fas fa-download"></i> دانلود ویدیوی فعلی
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.tags|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.file|as_crispy_field }}
+                        {% if object and object.file %}
+                        <div class="mt-2">
+                            <a href="{{ object.file.url }}" target="_blank" class="btn btn-sm btn-info">
+                                <i class="fas fa-download"></i> دانلود فایل فعلی
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
 
-						{{ form.description|as_crispy_field|safe }}
-					</div>
+                    <!-- بخش آپلود گالری تصاویر -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="id_images" class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i><br>
+                                <span>برای انتخاب تصاویر کلیک کنید یا فایل‌ها را اینجا بکشید</span><br>
+                                <small class="text-muted">می‌توانید چندین تصویر را همزمان انتخاب کنید</small>
+                            </label>
+                            <input type="file"
+                                   name="images"
+                                   id="id_images"
+                                   multiple
+                                   accept="image/*"
+                                   class="d-none">
+                            {% if form.images.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.images.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="selected-files" class="row mb-3"></div>
+                    </div>
+                </div>
 
-					<div class="col-6">
+                <button type="submit" class="btn btn-primary mt-3">
+                    <i class="fas fa-save"></i> ذخیره مقاله
+                </button>
+                {% if object %}
+                <a href="{% url 'account:home' %}" class="btn btn-secondary mt-3">انصراف</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 
-						{{ form.thumbnail|as_crispy_field|safe }}
-					</div>
-					<div class="col-6">
-
-						{{ form.publish|as_crispy_field|safe }}
-
-					</div>
-					{% if user.is_superuser %}
-						<div class="col-6">
-
-							{{ form.author|as_crispy_field|safe }}
-						</div>
-						<div class="col-6">
-
-							{{ form.status|as_crispy_field|safe }}
-						</div>
-                        	<div class="col-6">
-
-							{{ form.category|as_crispy_field|safe }}
-						</div>
-                        	<div class="col-6">
-
-							{{ form.video|as_crispy_field|safe }}
-						</div>
-                        	<div class="col-6">
-
-							{{ form.file|as_crispy_field|safe }}
-						</div>
-
-					{% else %}
-					<div class="col-6">
-						 <div id="div_id_status" class="form-group">
-								<label for="id_status" class=" requiredField">
-								وضعیت<span class="asteriskField">*</span>
-								</label>
-								<div class="">
-									 <select name="status" class="select form-control" required="" id="id_status">
-											<option value="">---------</option>
-											<option value="d">پیش‌نویس</option>
-											<option value="i">ارسال برای ادمین</option>
-                                            <option value="">منتشرشده</option>
-
-
-                                        </select>
-								</div>
-						 </div>
-					</div>
-				{% endif %}
-				<div class="col-6">
-					{{ form.is_special|as_crispy_field }}
-				</div>
-				</div>
-				<button class="btn btn-success">ارسال مقاله</button>
-
-			</form>
-		</div>
+    {% if object and object.images.all %}
+<div class="row mt-4">
+    {% for img in object.images.all %}
+    <div class="col-md-3 mb-3">
+        <img src="{{ img.image.url }}" class="img-fluid img-thumbnail">
+    </div>
+    {% endfor %}
 </div>
+{% endif %}
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    // اضافه کردن اعتبارسنجی فرم
+    $('#article-form').on('submit', function(e) {
+        var files = $('#id_images')[0].files;
+        if (files.length > 0) {
+            console.log('تعداد فایل‌های انتخاب شده:', files.length);
+        }
+    });
+
+    // پیش‌نمایش تصاویر
+    $('#id_images').on('change', function() {
+        var files = $(this)[0].files;
+        var preview = $('#selected-files');
+        preview.empty();
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].type.startsWith('image/')) {
+                    var reader = new FileReader();
+
+                    reader.onload = (function(file) {
+                        return function(e) {
+                            var col = $(`
+                                <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                        <div class="position-relative">
+                                            <img src="${e.target.result}" class="card-img-top"
+                                                 alt="${file.name}" style="height: 200px; object-fit: cover;">
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small text-muted">${file.name}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                            preview.append(col);
+                        };
+                    })(files[i]);
+
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+        }
+    });
+
+    // Drag and drop functionality
+    $('.file-input-label').on('dragover', function(e) {
+        e.preventDefault();
+        $(this).addClass('bg-light').css('border-color', '#007bff');
+    }).on('dragleave', function(e) {
+        e.preventDefault();
+        $(this).removeClass('bg-light').css('border-color', '#ccc');
+    }).on('drop', function(e) {
+        e.preventDefault();
+        $(this).removeClass('bg-light').css('border-color', '#ccc');
+        $('#id_images')[0].files = e.originalEvent.dataTransfer.files;
+        $('#id_images').trigger('change');
+    });
+});
+</script>
 {% endblock %}

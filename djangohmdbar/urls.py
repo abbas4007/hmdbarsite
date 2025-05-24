@@ -19,10 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('modir/account/', admin.site.urls),
     path('', include('home.urls', namespace = 'home')),
-    path('account/', include('account.urls', namespace = 'account')),
+    path('account/modir/', include('account.urls', namespace = 'account')),
     path('captcha/', include('captcha.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 
 ]
 if settings.DEBUG:

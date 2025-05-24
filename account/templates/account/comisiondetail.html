@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+    {% block inc %}
+        {% endblock %}
+     <div class="container-fluid">
+        <img src="{% static 'banner.jpg' %}"
+             style="width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);"
+             alt="کانون وکلای دادگستری استان همدان"
+             loading="lazy">
+    </div>
 <div class="container mt-5">
-    <h1 class="mb-4 text-primary " style="direction: rtl" >{{ comisions.name }}</h1>
+    <h1 class="mb-4 text-primary " style="direction: rtl" >{{ comisions.name|escape }}</h1>
 
     <div class="row mb-5">
         <div class="col-md-8">
@@ -18,16 +30,15 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            <img
-                                                src="{{ vakil.thumbnail.url }}"
-                                                alt="{{ vakil.name }} {{ vakil.lastname }}"
+                                            <img src="{% if vakil.thumbnail.url %}{{ vakil.thumbnail.url|escape }}{% else %}{% static 'default_avatar.png' %}  {% endif %}"
+                                                alt="{{ vakil.name|escape }} {{ vakil.lastname|escape }}"
                                                 class="img-fluid rounded-circle"
                                                 style="width: 100px; height: 100px; object-fit: cover; border: 3px solid {% if comisions.chairman and forloop.first %}#28a745{% else %}#17a2b8{% endif %}"
                                             >
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h5 class="card-title mb-2">
-                                                {{ vakil.name }} {{ vakil.lastname }}
+                                                {{ vakil.name|escape }} {{ vakil.lastname|escape }}
                                                 {% if comisions.chairman and forloop.first %}
                                                 <span class="badge bg-success">رئیس</span>
                                                 {% endif %}
@@ -63,7 +74,7 @@
                                 </h6>
                                 <div class="description-content">
                                     {% if comisions.description %}
-                                        {{ comisions.description|linebreaks }}
+{{ comisions.description|escape|linebreaks }}
                                     {% else %}
                                         <p class="text-muted fst-italic">هیچ توضیحی ثبت نشده است</p>
                                     {% endif %}

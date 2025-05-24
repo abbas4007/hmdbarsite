@@ -1,4 +1,9 @@
+import os
+import uuid
 from io import BytesIO
+from django.conf import settings
+from taggit.managers import TaggableManager
+from django_jalali.db import models as jmodels
 
 from autoslug import AutoSlugField
 from ckeditor.fields import RichTextField
@@ -7,6 +12,8 @@ import arabic_reshaper
 from PIL import Image, ImageDraw, ImageFont
 from bidi.algorithm import get_display
 from django.core.files.base import ContentFile
+from django.core.files.storage import DefaultStorage, default_storage
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -14,9 +21,11 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
 from slugify import slugify
-from tinymce.models import HTMLField
+from django_ckeditor_5.fields import CKEditor5Field
 
 from account.models import User
+from djangohmdbar import settings
+from djangohmdbar.settings import BASE_DIR
 from extensions.utils import jalali_converter
 
 
@@ -81,29 +90,34 @@ def text_wrap(text, font, max_width) :
 
 class Article(models.Model):
     STATUS_CHOICES = (
-        ('d', 'پیش‌نویس'),		 # draft
-        ('p', "منتشر شده"),		 # publish
-        ('i', "در حال بررسی"),	 # investigation
-        ('b', "برگشت داده شده"), # back
+        ('d', 'پیش‌نویس'),
+        ('p', 'منتشر شده'),
+        ('i', 'در حال بررسی'),
+        ('b', 'برگشت داده شده'),
     )
-    author = models.ForeignKey(User,  on_delete=models.SET_NULL, related_name='articless', verbose_name="نویسنده",blank = True, null=True)
+
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='articles', verbose_name="نویسنده", blank=True, null=True)
     title = models.CharField(max_length=200, verbose_name="عنوان مقاله")
-    slug = AutoSlugField(populate_from='title', unique=True, always_update=True,max_length=100, verbose_name= "آدرس مقاله" ,blank = True ,null = True, editable=True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True, max_length=100, verbose_name="آدرس مقاله", blank=True, null=True, editable=True)
     category = models.ManyToManyField(Category, verbose_name="دسته‌بندی", related_name="articles")
-    description = HTMLField(verbose_name="محتوا")
-    thumbnail = models.ImageField(upload_to="image", verbose_name="تصویر مقاله",blank = True,null = True)
-    publish = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
+    description = CKEditor5Field(verbose_name="محتوا")
+    thumbnail = models.ImageField(upload_to="article_images/",storage=DefaultStorage() ,verbose_name="تصویر مقاله", blank=True, null=True)
+    publish = jmodels.jDateField(verbose_name= "تاریخ انتشار" ,auto_now_add = True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_special = models.BooleanField(default=False, verbose_name="مقاله ویژه")
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name="وضعیت")
-    file = models.FileField(blank = True,null = True)
-    video = models.FileField(blank = True,null = True,verbose_name= 'وید‍‍یو')
+    file = models.FileField(blank=True, null=True)
+    video = models.FileField(blank=True, null=True, verbose_name="ویدیو")
+    tags = TaggableManager(verbose_name = "برچسب‌ها", help_text = "برچسب‌ها را با کاما جدا کنید." ,blank = True)
+
+
     class Meta:
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
         ordering = ['-publish']
 
+    objects = ArticleManager()
 
     def __str__(self):
         return self.title
@@ -112,7 +126,7 @@ class Article(models.Model):
         return reverse("account:home")
 
     def jpublish(self):
-        return jalali_converter(self.publish)
+        return jalali_converter(self.created)
     jpublish.short_description = "زمان انتشار"
 
     def thumbnail_tag(self):
@@ -122,8 +136,6 @@ class Article(models.Model):
     def category_to_str(self):
         return "، ".join([category.title for category in self.category.active()])
     category_to_str.short_description = "دسته‌بندی"
-
-    objects = ArticleManager()
 
     def save(self, *args, **kwargs) :
         if not self.slug :
@@ -169,10 +181,42 @@ class Article(models.Model):
 
         return img_file
 
-    def save(self,*args,**kwargs) :
-        if not self.thumbnail :
-            self.thumbnail.save('article_image.jpg', self.create_image_with_title(self.title), save = False)
-        super().save(*args,**kwargs)
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.thumbnail:
+            img = Image.open(self.thumbnail)
+
+            desired_ratio = 16 / 9
+            width, height = img.size
+            current_ratio = width / height
+
+            if current_ratio > desired_ratio:
+                # عرض زیاد است → کراپ از عرض
+                new_width = int(height * desired_ratio)
+                left = (width - new_width) // 2
+                img = img.crop((left, 0, left + new_width, height))
+            elif current_ratio < desired_ratio:
+                # ارتفاع زیاد است → کراپ از ارتفاع
+                new_height = int(width / desired_ratio)
+                top = (height - new_height) // 2
+                img = img.crop((0, top, width, top + new_height))
+
+            img = img.resize((1200, 680), Image.Resampling.LANCZOS)
+
+            thumb_io = BytesIO()
+            img.save(thumb_io, format='JPEG', quality=85)
+
+            self.thumbnail.save(
+                self.thumbnail.name,
+                ContentFile(thumb_io.getvalue()),
+                save=False
+            )
+            super().save(update_fields=['thumbnail'])  # فقط thumbnail رو دوباره ذخیره کن
+
+
 
 class ArticleFile(models.Model) :
     article = models.ForeignKey(Article, on_delete = models.CASCADE, related_name = 'files')
@@ -183,12 +227,13 @@ class ArticleFile(models.Model) :
     def __str__(self) :
         return f"{self.article.title} - {self.file.name}"
 
-class ArticleImage(models.Model):
-    article = models.ForeignKey(Article, default=None, on_delete=models.CASCADE)
-    images = models.ImageField(upload_to = 'articleimages/',blank=True, null=True)
 
-    def __str__(self):
-        return self.article.title
+class ArticleImage(models.Model) :
+    article = models.ForeignKey(Article, on_delete = models.CASCADE, related_name = 'images')
+    image = models.ImageField(upload_to = 'article_images/',blank = True,null = True)
+
+    def __str__(self) :
+        return f"Image for {self.article.title}"
 
 class ArticleHit(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
@@ -228,7 +273,9 @@ class Vakil(models.Model):
     name = models.CharField(max_length=100, verbose_name="نام", blank=True, null=True)
     code = models.IntegerField(blank=True, null=True, verbose_name="شماره پروانه")
     gender = models.CharField(blank=True, null=True, max_length=1, choices=GENDER_CHOICES, verbose_name="جنسیت")
-    date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ انقضا")
+    year = models.DateTimeField(verbose_name=" سال",blank=True, null=True)
+    month = models.DateTimeField(verbose_name=" ماه",blank=True, null=True)
+    day = models.DateTimeField(verbose_name=" روز",blank=True, null=True)
     lastname = models.CharField(blank=True, null=True, max_length=150, verbose_name="نام خانوادگی")
     address = models.TextField(blank=True, null=True, verbose_name="آدرس")
     thumbnail = models.ImageField(upload_to="images", verbose_name="تصویر وکیل", blank=True, null=True)
@@ -240,6 +287,8 @@ class Vakil(models.Model):
         null = True
     )
     city_slug = models.SlugField(max_length = 150, blank = True, verbose_name = "اسلاگ شهر")
+    phone = models.CharField(max_length = 11, verbose_name = 'شماره تماس دفتر' ,  blank = True,null = True)
+    mobile = models.CharField(max_length = 11, verbose_name = 'شماره موبایل',blank = True,null = True)
 
     def save(self, *args, **kwargs) :
         if self.city :

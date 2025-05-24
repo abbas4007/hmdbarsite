@@ -1,6 +1,9 @@
 from django import forms
+from jalali_date.widgets import AdminJalaliDateWidget
+
 from .models import Vakil, Article, Comment
 from ckeditor.widgets import CKEditorWidget
+from django_jalali.forms import jDateField
 
 
 class ImageForm(forms.ModelForm):
@@ -10,10 +13,15 @@ class ImageForm(forms.ModelForm):
         fields = ('thumbnail',)
 
 
-class VakilSearchForm(forms.ModelForm):
-    class Meta:
-        model = Vakil
-        fields  = ('name',)
+class VakilSearchForm(forms.Form):
+    search = forms.CharField(
+        required=False,
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'نام یا نام خانوادگی وکیل...',
+            'class': 'form-control'
+        })
+    )
 
 class ArticleSearchForm(forms.Form):
     title = forms.CharField(label="",widget = forms.TextInput( attrs = {'class' : 'form-control mt-2 p-1'}))
@@ -36,3 +44,12 @@ class AdminContactForm(forms.Form):
         comment.save()
 
 
+class VakilForm(forms.ModelForm) :
+    date = jDateField(
+        label = "تاریخ انقضا",
+        widget = AdminJalaliDateWidget(attrs = {'class' : 'form-control'}),
+    )
+
+    class Meta :
+        model = Vakil
+        fields = '__all__'

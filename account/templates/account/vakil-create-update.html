@@ -1,77 +1,114 @@
 {% extends 'account/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% block title-meta %}
-افزودن وکیل
-{% endblock %}{% endblock %}
+{% block title %}
+    افزودن وکیل
+{% endblock %}
 
 {% block main %}
 <div class="col-md-12">
-	<div class="card card-primary">
-		<div class="card-header">
-			<h3 class="card-title mb-0 float-left">افزودن وکیل</h3>
-		</div>
-		<div class="card-body">
-			<form method="post" enctype="multipart/form-data">{% csrf_token %}
-				<div class="row">
-					<div class="col-6">
-						{{ form.name|as_crispy_field|safe  }}
-					</div>
-					<div class="col-6">
-						{{ form.lastname|as_crispy_field|safe  }}
-					</div>
-					<div class="col-12">
-						{{ form.gender|as_crispy_field|safe  }}
-					</div>
-					<div class="col-6">
-						{{ form.code|as_crispy_field|safe  }}
-					</div>
-					<div class="col-6">
-						{{ form.thumbnail|as_crispy_field|safe  }}
-					</div>
-					<div class="col-6">
-						{{ form.address|as_crispy_field|safe  }}
-					</div>
-					{% if user.is_superuser %}
-						 <div class="col-6">
-        {{ form.date|as_crispy_field|safe }}
-    </div>
-    <div class="col-6">
-<div class="form-group">
-    <label for="{{ form.city.id_for_label }}">شهر</label>
-    <select name="{{ form.city.name }}" class="form-control" id="{{ form.city.id_for_label }}">
-        {% for value, name in form.fields.city.choices %}
-            <option value="{{ value }}" {% if form.city.value == value %}selected{% endif %}>{{ name }}</option>
-        {% endfor %}
-    </select>
-</div>    </div>
-					{% else %}
-					<div class="col-6">
-						 <div id="div_id_status" class="form-group">
-								<label for="id_status" class=" requiredField">
-								وضعیت<span class="asteriskField">*</span>
-								</label>
-								<div class="">
-									 <select name="status" class="select form-control" required="" id="id_status">
-											<option value="">---------</option>
-											<option value="d">پیش‌نویس</option>
-											<option value="i">ارسال برای ادمین</option>
-                                            <option value="">منتشرشده</option>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title mb-0 float-left">افزودن وکیل</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                        {{ form.name|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.lastname|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-12">
+                        {{ form.gender|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.code|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.thumbnail|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.address|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.phone|as_crispy_field|safe }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.mobile|as_crispy_field|safe }}
+                    </div>
 
-									
-                                        </select>
-								</div>
-						 </div>
-					</div>
-				{% endif %}
-				<div class="col-6">
-					{{ form.is_special|crispy }}
-				</div>
-				</div>
-				<button class="btn btn-success"> افزودن وکیل</button>
-				
-			</form>
-		</div>
+                      <div class="row mb-3">
+    <div class="col-12">
+        <label class="form-label">تاریخ انقضا</label>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            {{ form.year|as_crispy_field|safe }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            {{ form.month|as_crispy_field|safe }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            {{ form.day|as_crispy_field|safe }}
+        </div>
+    </div>
 </div>
+
+<style>
+    #id_year::placeholder,
+    #id_month::placeholder,
+    #id_day::placeholder {
+        text-align: center;
+        color: #6c757d;
+    }
+</style>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="{{ form.city.id_for_label }}">شهر</label>
+                                <select name="{{ form.city.name }}" class="form-control" id="{{ form.city.id_for_label }}">
+                                    {% for value, name in form.fields.city.choices %}
+                                        <option value="{{ value }}" {% if form.city.value == value %}selected{% endif %}>{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div id="div_id_status" class="form-group">
+                                <label for="id_status" class="requiredField">وضعیت<span class="asteriskField">*</span></label>
+
+                            </div>
+                        </div>
+
+
+                </div>
+
+                <button class="btn btn-success mt-3">افزودن وکیل</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
+<script>
+
+<!-- Persian Datepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-date@1.0.6/dist/persian-date.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+    $(document).ready(function () {
+        $("#id_date").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            initialValueType: 'gregorian',
+            calendarType: 'persian',
+            autoClose: true,
+        });
+    });
+</script>
