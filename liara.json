@@ -1,0 +1,15 @@
+{
+
+    'disks':[
+        {
+        "name":"database",
+        "mountTo":"dtabase"
+        },
+        {
+           "name":"media",
+           "mountTo":"media"
+
+        }
+    ],
+    "app":"hamedanbar"
+}
