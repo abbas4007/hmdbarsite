@@ -12,4 +12,8 @@
         }
     ],
     "app":"hamedanbar"
+    {
+  "platform": "python",
+  "port": 8000
+}
 }
